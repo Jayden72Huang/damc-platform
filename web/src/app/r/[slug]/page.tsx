@@ -38,7 +38,7 @@ export async function generateMetadata({
     openGraph: {
       title: "DAMC — AI 时代个人价值评估",
       description: "看看 TA 在 AI 时代的真实坐标",
-      url: `https://vibergo.space/r/${slug}`,
+      url: `https://damc.space/r/${slug}`,
     },
   };
 }

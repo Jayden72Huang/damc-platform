@@ -126,7 +126,7 @@ export function ReportCard({ slug }: { slug: string }) {
 
   const s = (data.scores ?? {}) as Record<string, number>;
   const ins = data.insights;
-  const shareUrl = `https://vibergo.space/r/${data.slug}`;
+  const shareUrl = `https://damc.space/r/${data.slug}`;
 
   function handleCopy() {
     const text = [
