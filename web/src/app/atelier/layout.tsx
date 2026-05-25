@@ -48,7 +48,7 @@ export default function AtelierLayout({
 }>): React.ReactNode {
   return (
     <section
-      className={`${display.variable} ${numbers.variable} ${body.variable} ${code.variable}`}
+      className={`dark ${display.variable} ${numbers.variable} ${body.variable} ${code.variable}`}
     >
       {children}
     </section>

@@ -3,17 +3,10 @@ import {
   Albert_Sans,
   JetBrains_Mono,
 } from "next/font/google";
-
-import "./sakura.css";
+import "../sakura.css";
 import { Header } from "@/components/sakura/Header";
-import { Hero } from "@/components/sakura/Hero";
-import { WhatIsDamc } from "@/components/sakura/WhatIsDamc";
-import { Benefits } from "@/components/sakura/Benefits";
-import { HowToUse } from "@/components/sakura/HowToUse";
-import { SocialProof } from "@/components/sakura/SocialProof";
-import { Pricing } from "@/components/sakura/Pricing";
-import { FinalCTA } from "@/components/sakura/FinalCTA";
 import { Footer } from "@/components/sakura/Footer";
+import { DashboardContent } from "@/components/sakura/DashboardContent";
 
 const display = Big_Shoulders({
   subsets: ["latin"],
@@ -33,19 +26,26 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
-export default function Home(): React.ReactNode {
+export const metadata = {
+  title: "Dashboard | DAMC.ai",
+  description: "你的 DAMC 评估历史和分数趋势",
+};
+
+export default function DashboardPage(): React.ReactNode {
   return (
     <main
       className={`sakura-root ${display.variable} ${body.variable} ${mono.variable}`}
     >
       <Header />
-      <Hero />
-      <WhatIsDamc />
-      <Benefits />
-      <HowToUse />
-      <SocialProof />
-      <Pricing />
-      <FinalCTA />
+      <section className="sk-section" style={{ minHeight: "70vh" }}>
+        <div className="sk-container">
+          <div className="sk-section-header">
+            <span className="sk-section-num">◆</span>
+            Dashboard
+          </div>
+          <DashboardContent />
+        </div>
+      </section>
       <Footer />
     </main>
   );

@@ -10,6 +10,7 @@ import { Pricing } from "@/components/atelier/Pricing";
 import { Privacy } from "@/components/atelier/Privacy";
 import { Process } from "@/components/atelier/Process";
 import { SampleReport } from "@/components/atelier/SampleReport";
+import { V2Features } from "@/components/atelier/V2Features";
 
 export default function AtelierPage(): React.ReactNode {
   return (
@@ -18,6 +19,7 @@ export default function AtelierPage(): React.ReactNode {
       <PainPoints />
       <Dimensions />
       <Archetypes />
+      <V2Features />
       <SampleReport />
       <Process />
       <Pricing />
