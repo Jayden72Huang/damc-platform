@@ -18,8 +18,8 @@ const steps = [
   {
     num: "03",
     title: "获取报告",
-    desc: "完成 3 道快问后，30 秒内生成完整 HTML 报告。本地保存，分数可选上传到平台。",
-    command: "open ~/Desktop/DAMC-Report.html",
+    desc: "终端即时输出 4 维总分 + 画像。上传分数到 damc.space 解锁完整分析：22 子维度、护城河识别、90 天行动路径。",
+    command: "damc.space/r/你的报告",
     link: { text: "查看示例报告 →", href: "/r/demo" },
   },
 ] as const;
