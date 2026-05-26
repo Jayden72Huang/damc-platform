@@ -1964,4 +1964,69 @@ body:has(.sakura-root) {
   .sk-hero-actions { flex-direction: column; align-items: stretch; }
   .sk-cert-archetype { font-size: 24px; }
   .sk-cert-overall { font-size: 28px; }
+  .sk-archetype-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ===== ARCHETYPES ===== */
+.sk-archetype-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.sk-archetype-card {
+  border: var(--border-w) solid var(--ink);
+  background: var(--paper-lt);
+  overflow: hidden;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.sk-archetype-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.sk-archetype-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.sk-archetype-img img {
+  object-fit: cover;
+}
+
+.sk-archetype-info {
+  padding: 14px 12px 16px;
+  text-align: center;
+  border-top: var(--border-w) solid var(--ink);
+}
+
+.sk-archetype-emoji {
+  font-size: 24px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.sk-archetype-name {
+  font-family: var(--sk-font-display), 'Impact', sans-serif;
+  font-size: 15px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+}
+
+.sk-archetype-code {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 11px;
+  color: var(--ink-light);
+  margin-top: 2px;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .sk-archetype-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
 }

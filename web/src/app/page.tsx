@@ -9,6 +9,7 @@ import { Header } from "@/components/sakura/Header";
 import { Hero } from "@/components/sakura/Hero";
 import { WhatIsDamc } from "@/components/sakura/WhatIsDamc";
 import { Benefits } from "@/components/sakura/Benefits";
+import { Archetypes } from "@/components/sakura/Archetypes";
 import { HowToUse } from "@/components/sakura/HowToUse";
 import { SocialProof } from "@/components/sakura/SocialProof";
 import { Pricing } from "@/components/sakura/Pricing";
@@ -42,6 +43,7 @@ export default function Home(): React.ReactNode {
       <Hero />
       <WhatIsDamc />
       <Benefits />
+      <Archetypes />
       <HowToUse />
       <SocialProof />
       <Pricing />
