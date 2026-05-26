@@ -1146,6 +1146,23 @@ body:has(.sakura-root) {
   margin-bottom: 16px;
 }
 
+.sk-process-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: var(--border-w) solid var(--ink);
+  padding-bottom: 2px;
+  text-decoration: none;
+  transition: opacity 150ms ease;
+}
+
+.sk-process-link:hover {
+  opacity: 0.6;
+}
+
 /* ===== COPY COMMAND ===== */
 .sk-code-row {
   display: flex;
