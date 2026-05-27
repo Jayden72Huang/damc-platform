@@ -10,17 +10,13 @@ export function FinalCTA(): React.ReactNode {
           真实的自己了吗？
         </p>
 
-        <a
-          href="#pricing"
-          className="sk-stamp"
-          style={{ fontSize: 18, padding: "14px 36px" }}
-        >
-          立即免费体检
-        </a>
-
-        <div style={{ maxWidth: 480, margin: "32px auto 0" }}>
+        <div style={{ maxWidth: 480, margin: "0 auto 24px" }}>
           <CopyCommand command="npx skills add Jayden72Huang/damc-skill" />
         </div>
+
+        <p style={{ fontSize: 13, color: "var(--ink-light)", opacity: 0.6 }}>
+          安装后在终端输入 /damc 即可开始
+        </p>
       </div>
     </section>
   );
