@@ -41,6 +41,7 @@ export function Header(): React.ReactNode {
           </a>
           <nav className="sk-nav">
             <a href="/#what">About</a>
+            <a href="/marketplace">SeKill</a>
             <a href="/leaderboard">Leaderboard</a>
             {user ? (
               <>

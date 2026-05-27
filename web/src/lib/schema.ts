@@ -64,12 +64,51 @@ export const reports = pgTable("reports", {
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
 });
 
+export const skills = pgTable("skills", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  slug: text("slug").unique().notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  displayName: text("display_name").notNull(),
+  description: text("description").notNull(),
+  category: text("category").notNull(),
+  price: integer("price").notNull().default(0),
+  currency: text("currency").notNull().default("USD"),
+  installCommand: text("install_command").notNull(),
+  repoUrl: text("repo_url"),
+  demoUrl: text("demo_url"),
+  iconEmoji: text("icon_emoji"),
+  tags: jsonb("tags").$type<string[]>(),
+  features: jsonb("features").$type<string[]>(),
+  stats: jsonb("stats").$type<{
+    downloads: number;
+    rating: number;
+    reviews: number;
+  }>(),
+  valuation: jsonb("valuation").$type<{
+    score: number;
+    reasoning: string;
+    marketFit: string;
+    uniqueness: string;
+  }>(),
+  status: text("status").notNull().default("listed"),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+});
+
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
   sessions: many(sessions),
   reports: many(reports),
+  skills: many(skills),
 }));
 
 export const reportsRelations = relations(reports, ({ one }) => ({
   user: one(users, { fields: [reports.userId], references: [users.id] }),
+}));
+
+export const skillsRelations = relations(skills, ({ one }) => ({
+  user: one(users, { fields: [skills.userId], references: [users.id] }),
 }));

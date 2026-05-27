@@ -1,0 +1,294 @@
+/* ===== MARKETPLACE HERO ===== */
+.sk-mp-hero {
+  text-align: center;
+  padding: 48px 0 32px;
+}
+
+.sk-mp-title {
+  font-family: var(--sk-font-display), 'Impact', sans-serif;
+  font-size: 56px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink);
+  margin: 0;
+}
+
+.sk-mp-subtitle {
+  font-family: var(--sk-font-display), 'Impact', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  opacity: 0.7;
+  margin: 8px 0 16px;
+  letter-spacing: 1px;
+}
+
+.sk-mp-desc {
+  font-size: 15px;
+  color: var(--ink-light);
+  max-width: 560px;
+  margin: 0 auto 24px;
+  line-height: 1.7;
+}
+
+.sk-mp-cta-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.sk-btn-primary {
+  display: inline-block;
+  padding: 12px 28px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sk-font-display), 'Impact', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  border: var(--border-w) solid var(--ink);
+  transition: all 150ms ease;
+}
+
+.sk-btn-primary:hover {
+  background: transparent;
+  color: var(--ink);
+}
+
+.sk-mp-stat {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 12px;
+  color: var(--ink-light);
+}
+
+/* ===== FILTERS ===== */
+.sk-mp-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: var(--border-w) solid var(--ink-border);
+}
+
+.sk-mp-filter {
+  padding: 6px 14px;
+  background: transparent;
+  border: var(--border-w) solid var(--ink-border);
+  font-family: var(--sk-font-body), sans-serif;
+  font-size: 13px;
+  color: var(--ink-light);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.sk-mp-filter:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.sk-mp-filter-active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* ===== SKILL CARDS ===== */
+.sk-mp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.sk-mp-card {
+  border: var(--border-w) solid var(--ink);
+  padding: 24px;
+  background: var(--paper-lt);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.sk-mp-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.sk-mp-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.sk-mp-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink-faint);
+  border: var(--border-w) solid var(--ink-border);
+}
+
+.sk-mp-card-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.sk-mp-card-name {
+  font-family: var(--sk-font-display), 'Impact', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+  color: var(--ink);
+}
+
+.sk-mp-card-seller {
+  font-size: 12px;
+  color: var(--ink-light);
+}
+
+.sk-mp-price {
+  font-family: var(--sk-font-display), 'Impact', sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.sk-mp-free {
+  color: var(--color-m);
+  font-size: 16px;
+}
+
+.sk-mp-card-desc {
+  font-size: 13px;
+  color: var(--ink-light);
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.sk-mp-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+}
+
+.sk-mp-features li {
+  font-size: 12px;
+  color: var(--ink);
+  padding: 2px 0;
+  font-family: var(--sk-font-mono), monospace;
+}
+
+.sk-mp-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.sk-mp-card-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sk-mp-stars {
+  font-size: 13px;
+  color: var(--color-c);
+  letter-spacing: 1px;
+}
+
+.sk-mp-rating-num {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 11px;
+  color: var(--ink-light);
+  margin-left: 4px;
+}
+
+.sk-mp-downloads {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 11px;
+  color: var(--ink-light);
+}
+
+.sk-mp-valuation {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 11px;
+  color: var(--color-m);
+  font-weight: 600;
+}
+
+.sk-mp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.sk-mp-tag {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border: 1px solid var(--ink-border);
+  color: var(--ink-light);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.sk-mp-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--ink-faint);
+}
+
+.sk-mp-install-cmd {
+  flex: 1;
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 11px;
+  padding: 8px 12px;
+  background: var(--ink-faint);
+  border: 1px solid var(--ink-border);
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sk-mp-install-btn {
+  flex-shrink: 0;
+  padding: 8px 18px;
+  background: var(--ink);
+  color: var(--paper);
+  border: var(--border-w) solid var(--ink);
+  font-family: var(--sk-font-display), 'Impact', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.sk-mp-install-btn:hover {
+  background: transparent;
+  color: var(--ink);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .sk-mp-title { font-size: 36px; }
+  .sk-mp-grid { grid-template-columns: 1fr; }
+  .sk-mp-cta-row { flex-direction: column; }
+  .sk-mp-filters { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+}
