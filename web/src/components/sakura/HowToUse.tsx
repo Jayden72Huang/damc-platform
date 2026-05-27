@@ -29,7 +29,7 @@ export function HowToUse(): React.ReactNode {
     <section id="how" className="sk-section">
       <div className="sk-container">
         <div className="sk-section-header">
-          <span className="sk-section-num">04</span>
+          <span className="sk-section-num">02</span>
           How to Use
         </div>
 

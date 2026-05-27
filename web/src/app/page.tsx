@@ -8,11 +8,10 @@ import "./sakura.css";
 import { Header } from "@/components/sakura/Header";
 import { Hero } from "@/components/sakura/Hero";
 import { WhatIsDamc } from "@/components/sakura/WhatIsDamc";
-import { Benefits } from "@/components/sakura/Benefits";
-import { Archetypes } from "@/components/sakura/Archetypes";
 import { HowToUse } from "@/components/sakura/HowToUse";
+import { Archetypes } from "@/components/sakura/Archetypes";
+import { Benefits } from "@/components/sakura/Benefits";
 import { SocialProof } from "@/components/sakura/SocialProof";
-import { Pricing } from "@/components/sakura/Pricing";
 import { FinalCTA } from "@/components/sakura/FinalCTA";
 import { Footer } from "@/components/sakura/Footer";
 
@@ -42,11 +41,10 @@ export default function Home(): React.ReactNode {
       <Header />
       <Hero />
       <WhatIsDamc />
-      <Benefits />
-      <Archetypes />
       <HowToUse />
+      <Archetypes />
+      <Benefits />
       <SocialProof />
-      <Pricing />
       <FinalCTA />
       <Footer />
     </main>

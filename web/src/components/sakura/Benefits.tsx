@@ -298,7 +298,7 @@ export function Benefits(): React.ReactNode {
     <section id="benefits" className="sk-section">
       <div className="sk-container">
         <div className="sk-section-header">
-          <span className="sk-section-num">02</span>
+          <span className="sk-section-num">04</span>
           Why DAMC
         </div>
 

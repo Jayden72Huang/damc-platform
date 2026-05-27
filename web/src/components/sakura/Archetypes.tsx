@@ -17,6 +17,7 @@ export function Archetypes(): React.ReactNode {
       <div className="sk-container">
         <div className="sk-section-header">
           <span className="sk-section-num">03</span>
+
           8 种画像，你是哪一种？
         </div>
         <p className="sk-section-sub">
