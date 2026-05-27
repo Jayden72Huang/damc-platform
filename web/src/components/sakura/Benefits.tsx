@@ -7,6 +7,7 @@ const features = [
     id: "breakdown",
     icon: "📊",
     title: "22 子维度深度拆解",
+    summary: "精准定位强项和短板",
     desc: "不只是一个总分。每个维度下 5-6 个子项精准评估，帮你找到最值得提升的短板和最该放大的长板。",
     tag: "Insight",
     tagColor: "var(--color-d)",
@@ -16,6 +17,7 @@ const features = [
     id: "distill",
     icon: "🧬",
     title: "可蒸馏清单",
+    summary: "哪些工作流能变成 AI 替你干",
     desc: "自动识别你最高频、最有价值的工作流，告诉你哪些可以蒸馏为 AI Skill 来放大你的影响力。",
     tag: "Distill",
     tagColor: "var(--color-m)",
@@ -25,6 +27,7 @@ const features = [
     id: "moat",
     icon: "🛡️",
     title: "护城河识别",
+    summary: "哪些能力 AI 拿不走",
     desc: "找出你最难被 AI 替代的核心能力。跨领域整合、社区信任、模糊决策 — 你的不可蒸馏优势。",
     tag: "Moat",
     tagColor: "var(--color-a)",
@@ -34,6 +37,7 @@ const features = [
     id: "track",
     icon: "📈",
     title: "进度追踪",
+    summary: "每次复测看到成长曲线",
     desc: "本地追踪你的 DAMC 分数变化。每次复测都看到进步曲线，让成长可量化、可感知。",
     tag: "V2 · New",
     tagColor: "var(--color-c)",
@@ -43,6 +47,7 @@ const features = [
     id: "recommend",
     icon: "🎯",
     title: "智能 Skill 推荐",
+    summary: "AI 教练帮你补短板",
     desc: "基于你的维度短板和职业画像，AI Coach 推荐最适合你的技能学习路径和 Skill 工具。",
     tag: "V2 · New",
     tagColor: "var(--color-c)",
@@ -52,7 +57,8 @@ const features = [
     id: "team",
     icon: "🏆",
     title: "团队排行榜",
-    desc: "找到你身边与 Agent 协作最6的人！团队内 DAMC 排名、Skill 互相分享、季度团队报告。",
+    summary: "看看谁是团队里的 AI 高手",
+    desc: "找到你身边与 Agent 协作最强的人！团队内 DAMC 排名、Skill 互相分享、季度团队报告。",
     tag: "V2 · New",
     tagColor: "var(--color-c)",
     preview: "team",
@@ -296,6 +302,10 @@ export function Benefits(): React.ReactNode {
           Why DAMC
         </div>
 
+        <p className="sk-section-intro">
+          别人只给你一个模糊的"AI 能力分"。DAMC 拆到 22 个子维度，告诉你<strong>哪些工作流该交给 AI、哪些能力是你的护城河、下一步该练什么</strong>。一次扫描，看清自己在 AI 时代的真实位置。
+        </p>
+
         <div className="sk-benefits-layout">
           <div className="sk-benefits-tabs">
             {features.map((f) => (
@@ -307,7 +317,10 @@ export function Benefits(): React.ReactNode {
               >
                 <div className="sk-benefits-tab-header">
                   <span className="sk-benefits-tab-icon">{f.icon}</span>
-                  <span className="sk-benefits-tab-title">{f.title}</span>
+                  <div className="sk-benefits-tab-text">
+                    <span className="sk-benefits-tab-title">{f.title}</span>
+                    <span className="sk-benefits-tab-summary">{f.summary}</span>
+                  </div>
                   {f.tag.includes("V2") && (
                     <span
                       className="sk-benefits-tab-tag"

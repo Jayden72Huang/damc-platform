@@ -101,6 +101,18 @@ body:has(.sakura-root) {
   letter-spacing: 1px;
 }
 
+.sk-section-intro {
+  font-size: 16px;
+  color: var(--ink-light);
+  max-width: 640px;
+  margin: -16px 0 32px;
+  line-height: 1.8;
+}
+.sk-section-intro strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
 .sk-section-sub {
   font-size: 16px;
   color: var(--ink-light);
@@ -748,6 +760,14 @@ body:has(.sakura-root) {
   flex-shrink: 0;
 }
 
+.sk-benefits-tab-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .sk-benefits-tab-title {
   font-family: var(--sk-font-display), 'Impact', sans-serif;
   font-size: 15px;
@@ -755,7 +775,12 @@ body:has(.sakura-root) {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--ink);
-  flex: 1;
+}
+
+.sk-benefits-tab-summary {
+  font-size: 12px;
+  color: var(--ink-light);
+  line-height: 1.4;
 }
 
 .sk-benefits-tab-tag {
@@ -2042,6 +2067,18 @@ body:has(.sakura-root) {
   color: var(--ink-light);
   margin-top: 2px;
   letter-spacing: 1px;
+}
+
+.sk-archetype-desc {
+  font-size: 12px;
+  color: var(--ink-light);
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+.sk-section-sub strong {
+  color: var(--ink);
+  font-weight: 700;
 }
 
 @media (max-width: 768px) {
