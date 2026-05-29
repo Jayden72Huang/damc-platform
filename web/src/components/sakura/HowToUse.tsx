@@ -63,7 +63,7 @@ export function HowToUse(): React.ReactNode {
         </div>
 
         <div className="sk-agent-compat">
-          支持 Claude Code · Codex · Cursor · Windsurf · Continue · Aider · WorkBuddy
+          支持 Claude Code · Codex · Cursor · Windsurf · Trae · 通义灵码 · MarsCode · CodeGeeX · Comate · Continue · Aider · WorkBuddy
         </div>
 
         <div className="sk-process-grid">
