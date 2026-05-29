@@ -1189,20 +1189,19 @@ body:has(.sakura-root) {
 
 /* ===== PROCESS ===== */
 .sk-process-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 560px;
 }
 
 .sk-process-grid > div {
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
 .sk-process-grid .sk-process-desc {
-  flex: 1;
+  flex: none;
 }
 
 .sk-process-num {
@@ -1756,6 +1755,75 @@ body:has(.sakura-root) {
   color: var(--color-a);
 }
 
+.sk-team-login-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--ink-light);
+}
+
+.sk-team-share-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  font-size: 13px;
+}
+
+.sk-team-share-label {
+  color: var(--ink-light);
+  font-size: 12px;
+}
+
+.sk-team-invite-code {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--paper-dk);
+  padding: 4px 12px;
+  border: var(--border-w) solid var(--ink-border);
+  letter-spacing: 1px;
+}
+
+.sk-team-copy-btn {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 11px;
+  padding: 4px 10px;
+  background: transparent;
+  border: var(--border-w) solid var(--ink-border);
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sk-team-copy-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.sk-team-share-cmd {
+  padding: 12px 0;
+}
+
+.sk-team-share-hint {
+  font-size: 12px;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+}
+
+.sk-team-cmd-box {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 12px;
+  background: var(--paper-dk);
+  border: var(--border-w) solid var(--ink-border);
+  padding: 10px 14px;
+  overflow-x: auto;
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+
 /* ===== DASHBOARD ===== */
 .sk-dash-layout {
   display: grid;
@@ -2134,7 +2202,7 @@ body:has(.sakura-root) {
 @media (max-width: 768px) {
   .sk-hero-title { font-size: 56px; }
   .sk-cta-title { font-size: 36px; }
-  .sk-dim-grid, .sk-process-grid { grid-template-columns: 1fr; }
+  .sk-dim-grid { grid-template-columns: 1fr; }
   .sk-eco-grid { grid-template-columns: 1fr; }
   .sk-footer-inner { flex-direction: column; gap: 12px; text-align: center; }
   .sk-section { padding: 48px 0; }

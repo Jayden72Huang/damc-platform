@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { CopyCommand } from "./CopyCommand";
 
 interface SkillListing {
   id: string;
@@ -285,6 +286,12 @@ export function MarketplaceContent(): React.ReactNode {
               <span className="sk-mp-stat">
                 {allSkills.length} skills listed · $15 — $49
               </span>
+            </div>
+            <div style={{ maxWidth: 520, margin: "16px auto 0" }}>
+              <CopyCommand command="/damc-scan-skill" />
+              <p style={{ fontSize: 11, color: "var(--ink-light)", opacity: 0.4, marginTop: 6, textAlign: "center" }}>
+                已安装 DAMC 的用户直接运行，自动扫描你的 Skills 并上架到 Marketplace
+              </p>
             </div>
           </div>
         </div>

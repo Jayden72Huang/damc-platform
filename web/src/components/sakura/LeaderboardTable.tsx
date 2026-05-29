@@ -28,19 +28,23 @@ function TeamPanel({
   selectedTeam,
   onSelect,
   onRefresh,
+  loggedIn,
 }: {
   teams: Team[];
   selectedTeam: string | null;
   onSelect: (id: string | null) => void;
   onRefresh: () => void;
+  loggedIn: boolean;
 }) {
   const [showCreate, setShowCreate] = useState(false);
   const [showJoin, setShowJoin] = useState(false);
+  const [showShare, setShowShare] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
+  const [copied, setCopied] = useState(false);
 
   async function handleCreate() {
     if (!name.trim()) return;
@@ -83,13 +87,32 @@ function TeamPanel({
     setBusy(false);
   }
 
+  function copyText(text: string) {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  const activeTeam = teams.find((t) => t.teamId === selectedTeam);
+
+  if (!loggedIn) {
+    return (
+      <div className="sk-team-panel">
+        <div className="sk-team-login-hint">
+          <a href="/login" className="sk-team-btn">登录</a>
+          <span>后可创建团队、用邀请码加入排行组</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="sk-team-panel">
       <div className="sk-team-tabs">
         <button
           type="button"
           className={`sk-team-tab${selectedTeam === null ? " sk-team-tab-active" : ""}`}
-          onClick={() => onSelect(null)}
+          onClick={() => { onSelect(null); setShowShare(null); }}
         >
           🌐 全球
         </button>
@@ -98,33 +121,59 @@ function TeamPanel({
             key={t.teamId}
             type="button"
             className={`sk-team-tab${selectedTeam === t.teamId ? " sk-team-tab-active" : ""}`}
-            onClick={() => onSelect(t.teamId)}
+            onClick={() => { onSelect(t.teamId); setShowShare(null); }}
           >
             {t.teamName}
-            {selectedTeam === t.teamId && t.inviteCode && (
-              <span className="sk-team-code" title="Invite code">
-                #{t.inviteCode}
-              </span>
-            )}
           </button>
         ))}
         <button
           type="button"
           className="sk-team-tab sk-team-tab-add"
-          onClick={() => { setShowCreate(!showCreate); setShowJoin(false); }}
+          onClick={() => { setShowCreate(!showCreate); setShowJoin(false); setShowShare(null); }}
           title="创建团队"
         >
-          +
+          + 创建
         </button>
         <button
           type="button"
           className="sk-team-tab sk-team-tab-add"
-          onClick={() => { setShowJoin(!showJoin); setShowCreate(false); }}
+          onClick={() => { setShowJoin(!showJoin); setShowCreate(false); setShowShare(null); }}
           title="加入团队"
         >
-          🔗
+          🔗 加入
         </button>
       </div>
+
+      {activeTeam && selectedTeam && (
+        <div className="sk-team-share-bar">
+          <span className="sk-team-share-label">邀请码：</span>
+          <code className="sk-team-invite-code">{activeTeam.inviteCode}</code>
+          <button
+            type="button"
+            className="sk-team-copy-btn"
+            onClick={() => copyText(activeTeam.inviteCode)}
+          >
+            {copied ? "✓" : "复制"}
+          </button>
+          <button
+            type="button"
+            className="sk-team-copy-btn"
+            onClick={() => setShowShare(showShare ? null : activeTeam.inviteCode)}
+          >
+            分享命令
+          </button>
+        </div>
+      )}
+
+      {showShare && (
+        <div className="sk-team-share-cmd">
+          <p className="sk-team-share-hint">发给队友，让他们在自己的 Agent 中运行：</p>
+          <div className="sk-team-cmd-box">
+            <code>{`curl -sL damc.space/api/teams/join -H "Content-Type: application/json" -d '{"inviteCode":"${showShare}"}'`}</code>
+          </div>
+          <p className="sk-team-share-hint">或者登录 damc.space/leaderboard 点击「🔗 加入」输入邀请码：<strong>{showShare}</strong></p>
+        </div>
+      )}
 
       {showCreate && (
         <div className="sk-team-form">
@@ -218,14 +267,13 @@ export function LeaderboardTable(): React.ReactNode {
 
   return (
     <>
-      {loggedIn && (
-        <TeamPanel
-          teams={teams}
-          selectedTeam={selectedTeam}
-          onSelect={setSelectedTeam}
-          onRefresh={fetchTeams}
-        />
-      )}
+      <TeamPanel
+        teams={teams}
+        selectedTeam={selectedTeam}
+        onSelect={setSelectedTeam}
+        onRefresh={fetchTeams}
+        loggedIn={loggedIn}
+      />
 
       {loading ? (
         <div style={{ textAlign: "center", padding: "60px 0", opacity: 0.4 }}>
