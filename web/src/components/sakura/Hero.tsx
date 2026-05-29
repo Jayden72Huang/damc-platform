@@ -151,7 +151,7 @@ export function Hero(): React.ReactNode {
                 <div className="sk-cert-info">
                   <div className="sk-cert-info-line">2026-05-25</div>
                   <div className="sk-cert-info-line">No. DAMC-2026-00042</div>
-                  <div className="sk-cert-info-line">damc.ai</div>
+                  <div className="sk-cert-info-line">damc.space</div>
                 </div>
               </div>
             </div>

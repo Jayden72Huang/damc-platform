@@ -19,19 +19,9 @@ const agents = [
     name: "通用安装",
     icon: "🌐",
     steps: [
-      { num: "01", title: "一键安装", desc: "自动检测系统中的所有 AI Agent（Codex、Cursor、Windsurf 等），一次安装到所有 Agent。", command: "curl -fsSL https://raw.githubusercontent.com/Jayden72Huang/damc-skill/main/install.sh | bash" },
-      { num: "02", title: "运行扫描", desc: '在你的 Agent 中说「运行 DAMC 评估」或「读取 SKILL.md 并执行」。', command: null },
-      { num: "03", title: "获取报告", desc: "报告保存到桌面。上传到 damc.space 解锁团队排名和进度追踪。", command: null },
-    ],
-  },
-  {
-    id: "manual",
-    name: "手动安装",
-    icon: "🔧",
-    steps: [
-      { num: "01", title: "克隆仓库", desc: "将 DAMC skill 克隆到你的 Agent 的 skills 目录下。", command: "git clone https://github.com/Jayden72Huang/damc-skill.git ~/.{agent}/skills/damc" },
-      { num: "02", title: "运行扫描", desc: '在 Agent 中说「读取 skills/damc/SKILL.md 并执行 DAMC 评估」。', command: null },
-      { num: "03", title: "获取报告", desc: "DAMC 会自动扫描所有已安装的 Agent 环境，不仅限于当前 Agent。", command: null },
+      { num: "01", title: "克隆仓库", desc: "一行命令下载 DAMC Skill 到本地，适用于任何 AI Agent。", command: "git clone https://github.com/Jayden72Huang/damc-skill.git" },
+      { num: "02", title: "运行扫描", desc: '打开你的 Agent（Cursor、Windsurf、Trae 等），说「读取 damc-skill/SKILL.md 并执行」。', command: null },
+      { num: "03", title: "获取报告", desc: "DAMC 自动扫描系统中所有 AI Agent 环境，生成 4 维评分报告。上传到 damc.space 解锁完整分析。", command: null },
     ],
   },
 ] as const;

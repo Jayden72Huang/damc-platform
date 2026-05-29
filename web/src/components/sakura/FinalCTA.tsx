@@ -10,12 +10,16 @@ export function FinalCTA(): React.ReactNode {
           真实的自己了吗？
         </p>
 
-        <div style={{ maxWidth: 480, margin: "0 auto 24px" }}>
+        <div style={{ maxWidth: 480, margin: "0 auto 16px" }}>
           <CopyCommand command="npx skills add Jayden72Huang/damc-skill" />
         </div>
 
         <p style={{ fontSize: 13, color: "var(--ink-light)", opacity: 0.6 }}>
-          安装后在终端输入 /damc 即可开始
+          Claude Code 用户安装后输入 /damc 即可开始
+        </p>
+
+        <p style={{ fontSize: 12, color: "var(--ink-light)", opacity: 0.45, marginTop: 12 }}>
+          其他 Agent？运行 git clone https://github.com/Jayden72Huang/damc-skill.git 然后说「读取 SKILL.md 并执行」
         </p>
       </div>
     </section>
