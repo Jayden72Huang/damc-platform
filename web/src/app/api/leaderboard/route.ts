@@ -24,9 +24,13 @@ export async function GET(req: Request) {
     const baseWhere = teamUserIds
       ? and(
           sql`${reports.overall} IS NOT NULL`,
+          sql`${reports.userId} IS NOT NULL`,
           inArray(reports.userId, teamUserIds)
         )
-      : sql`${reports.overall} IS NOT NULL`;
+      : and(
+          sql`${reports.overall} IS NOT NULL`,
+          sql`${reports.userId} IS NOT NULL`
+        );
 
     const allScores = await db
       .select({ overall: reports.overall })

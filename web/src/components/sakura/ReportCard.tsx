@@ -317,12 +317,27 @@ export function ReportCard({ slug }: { slug: string }) {
         </div>
       )}
 
+      {/* Login prompt for anonymous reports */}
+      {!data.userId && (
+        <div className="sk-rpt-bind-prompt">
+          <p className="sk-display" style={{ fontSize: 14, letterSpacing: 2, marginBottom: 8 }}>
+            绑定你的结果
+          </p>
+          <p style={{ fontSize: 13, color: "var(--ink-light)", marginBottom: 12 }}>
+            登录 GitHub 账号后，你的评分将出现在排行榜，还能加入团队排名。
+          </p>
+          <a href="/login" className="sk-btn sk-btn-primary">
+            用 GitHub 登录绑定 →
+          </a>
+        </div>
+      )}
+
       {/* Share bar */}
       <div className="sk-rpt-share">
         <button className="sk-btn" onClick={handleCopy}>
           {copied ? "✓ 已复制" : "复制分享文本"}
         </button>
-        <a href="/login" className="sk-btn-outline">
+        <a href="/" className="sk-btn-outline">
           测测你的 DAMC
         </a>
       </div>
