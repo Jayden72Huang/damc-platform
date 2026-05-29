@@ -276,22 +276,46 @@ export function MarketplaceContent(): React.ReactNode {
               Sell your Skills. Buy Superpowers.
             </p>
             <p className="sk-mp-desc">
-              AI 时代最值钱的不是代码，是被验证过的工作流。扫描你的 Claude Code
-              Skills，发现哪些能卖钱，一键上架。
+              AI 时代最值钱的不是代码，是被验证过的工作流。
+              在这里你可以发现、安装其他开发者打造的 AI Agent Skills，
+              也可以把自己的 Skills 上架分享或出售。
             </p>
-            <div className="sk-mp-cta-row">
-              <a href="/#how" className="sk-btn sk-btn-primary">
-                扫描我的 Skills →
-              </a>
-              <span className="sk-mp-stat">
-                {allSkills.length} skills listed · $15 — $49
-              </span>
+
+            <div className="sk-mp-how">
+              <div className="sk-mp-how-item">
+                <span className="sk-mp-how-num">1</span>
+                <div>
+                  <strong>找 Skill</strong>
+                  <p>浏览下方列表，按分类筛选你需要的能力。</p>
+                </div>
+              </div>
+              <div className="sk-mp-how-item">
+                <span className="sk-mp-how-num">2</span>
+                <div>
+                  <strong>一键安装</strong>
+                  <p>复制卡片底部的安装命令，粘贴到你的 Agent 终端即可使用。</p>
+                </div>
+              </div>
+              <div className="sk-mp-how-item">
+                <span className="sk-mp-how-num">3</span>
+                <div>
+                  <strong>上架你的 Skill</strong>
+                  <p>在 Agent 中运行下方命令，自动扫描并上架你的 Skills。</p>
+                </div>
+              </div>
             </div>
-            <div style={{ maxWidth: 520, margin: "16px auto 0" }}>
+
+            <div style={{ maxWidth: 520, margin: "0 auto" }}>
               <CopyCommand command="/damc-scan-skill" />
               <p style={{ fontSize: 11, color: "var(--ink-light)", opacity: 0.4, marginTop: 6, textAlign: "center" }}>
-                已安装 DAMC 的用户直接运行，自动扫描你的 Skills 并上架到 Marketplace
+                已安装 DAMC 的用户直接运行 · 需要 GitHub 登录
               </p>
+            </div>
+
+            <div className="sk-mp-cta-row">
+              <span className="sk-mp-stat">
+                {allSkills.length} skills listed · Free & Premium
+              </span>
             </div>
           </div>
         </div>

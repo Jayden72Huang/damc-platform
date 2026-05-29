@@ -1645,6 +1645,37 @@ body:has(.sakura-root) {
   border: 2px solid var(--ink);
 }
 
+.sk-lb-guide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding: 14px 20px;
+  background: var(--paper-dk);
+  border: var(--border-w) solid var(--ink-border);
+  flex-wrap: wrap;
+}
+
+.sk-lb-guide-item {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 12px;
+  color: var(--ink-light);
+}
+
+.sk-lb-guide-item strong {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.sk-lb-guide-sep {
+  color: var(--ink-border);
+  font-size: 14px;
+}
+
 .sk-lb-empty {
   text-align: center;
   padding: 80px 0;

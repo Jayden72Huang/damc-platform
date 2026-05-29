@@ -65,6 +65,48 @@
   color: var(--ink-light);
 }
 
+/* ===== HOW IT WORKS ===== */
+.sk-mp-how {
+  display: flex;
+  gap: 24px;
+  margin: 28px auto 24px;
+  max-width: 680px;
+  justify-content: center;
+}
+
+.sk-mp-how-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.sk-mp-how-item p {
+  font-size: 12px;
+  color: var(--ink-light);
+  margin: 4px 0 0;
+  line-height: 1.5;
+}
+
+.sk-mp-how-item strong {
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.sk-mp-how-num {
+  font-family: var(--sk-font-display), 'Impact', sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--ink);
+  opacity: 0.2;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .sk-mp-how { flex-direction: column; gap: 16px; }
+}
+
 /* ===== FILTERS ===== */
 .sk-mp-filters {
   display: flex;
