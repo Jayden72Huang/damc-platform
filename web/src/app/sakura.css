@@ -1140,6 +1140,53 @@ body:has(.sakura-root) {
   margin-top: 14px;
 }
 
+/* ===== AGENT TABS ===== */
+.sk-agent-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.sk-agent-tab {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  border: var(--border-w) solid var(--ink-border);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sk-agent-tab:hover {
+  background: var(--paper-dk);
+}
+
+.sk-agent-tab-active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.sk-agent-tab-icon {
+  font-size: 14px;
+}
+
+.sk-agent-compat {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  opacity: 0.35;
+  margin-bottom: 28px;
+}
+
 /* ===== PROCESS ===== */
 .sk-process-grid {
   display: grid;
