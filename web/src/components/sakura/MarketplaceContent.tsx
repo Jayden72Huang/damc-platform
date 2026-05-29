@@ -49,7 +49,7 @@ const DEMO_SKILLS: SkillListing[] = [
     category: "seo",
     price: 29,
     currency: "USD",
-    installCommand: "npx skills add seo-pipeline-pro",
+    installCommand: "npx skills add Jayden72Huang/seo-pipeline-pro",
     iconEmoji: "🔍",
     tags: ["SEO", "Content", "Programmatic"],
     features: [
@@ -65,7 +65,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "High demand for SEO automation",
       uniqueness: "Combines 5 tools into one skill",
     },
-    sellerName: "Jayden",
+    sellerName: "@Jayden72Huang",
     sellerImage: null,
   },
   {
@@ -76,9 +76,9 @@ const DEMO_SKILLS: SkillListing[] = [
     description:
       "Pre-deployment checklist automation: runs security scan, performance audit, accessibility check, and SEO validation before every deploy.",
     category: "dev-tools",
-    price: 19,
+    price: 0,
     currency: "USD",
-    installCommand: "npx skills add deploy-guardian",
+    installCommand: "npx skills add alexwang-dev/deploy-guardian",
     iconEmoji: "🛡️",
     tags: ["DevOps", "Security", "CI/CD"],
     features: [
@@ -94,7 +94,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "Every dev team needs deployment checks",
       uniqueness: "All-in-one pre-deploy audit",
     },
-    sellerName: "Alex W.",
+    sellerName: "@alexwang-dev",
     sellerImage: null,
   },
   {
@@ -107,7 +107,7 @@ const DEMO_SKILLS: SkillListing[] = [
     category: "content",
     price: 39,
     currency: "USD",
-    installCommand: "npx skills add brand-voice-writer",
+    installCommand: "npx skills add sarahli-writes/brand-voice-writer",
     iconEmoji: "🎙️",
     tags: ["Writing", "Brand", "Marketing"],
     features: [
@@ -123,7 +123,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "Growing demand for brand consistency",
       uniqueness: "Voice extraction + enforcement",
     },
-    sellerName: "Sarah L.",
+    sellerName: "@sarahli-writes",
     sellerImage: null,
   },
   {
@@ -136,7 +136,7 @@ const DEMO_SKILLS: SkillListing[] = [
     category: "data",
     price: 49,
     currency: "USD",
-    installCommand: "npx skills add data-pipeline-builder",
+    installCommand: "npx skills add kevinzhou-data/data-pipeline-builder",
     iconEmoji: "🔄",
     tags: ["ETL", "Data", "Pipeline"],
     features: [
@@ -152,7 +152,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "Data engineering is expensive",
       uniqueness: "NL-to-pipeline is novel",
     },
-    sellerName: "Kevin Z.",
+    sellerName: "@kevinzhou-data",
     sellerImage: null,
   },
   {
@@ -163,9 +163,9 @@ const DEMO_SKILLS: SkillListing[] = [
     description:
       "Describe a UI component → get production-ready React/Vue/Svelte code with Tailwind styling, accessibility, and responsive design built in.",
     category: "design",
-    price: 24,
+    price: 0,
     currency: "USD",
-    installCommand: "npx skills add ui-component-gen",
+    installCommand: "npx skills add lisameng-ui/ui-component-gen",
     iconEmoji: "🎨",
     tags: ["UI", "React", "Components"],
     features: [
@@ -181,7 +181,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "Universal need for UI components",
       uniqueness: "Multi-framework + accessibility focus",
     },
-    sellerName: "Lisa M.",
+    sellerName: "@lisameng-ui",
     sellerImage: null,
   },
   {
@@ -192,9 +192,9 @@ const DEMO_SKILLS: SkillListing[] = [
     description:
       "Drop a meeting transcript or recording → get structured action items, assignees, deadlines, and follow-up emails. Integrates with Linear, Notion, and Slack.",
     category: "productivity",
-    price: 15,
+    price: 0,
     currency: "USD",
-    installCommand: "npx skills add meeting-to-tasks",
+    installCommand: "npx skills add mikerui/meeting-to-tasks",
     iconEmoji: "📋",
     tags: ["Meetings", "Tasks", "Productivity"],
     features: [
@@ -210,7 +210,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "Meeting fatigue is universal",
       uniqueness: "End-to-end: transcript to tracked tasks",
     },
-    sellerName: "Mike R.",
+    sellerName: "@mikerui",
     sellerImage: null,
   },
 ];
@@ -324,7 +324,7 @@ export function MarketplaceContent(): React.ReactNode {
                     <div className="sk-mp-card-meta">
                       <h3 className="sk-mp-card-name">{skill.displayName}</h3>
                       <span className="sk-mp-card-seller">
-                        by {skill.sellerName ?? "Anonymous"}
+                        {skill.sellerName ?? "Anonymous"}
                       </span>
                     </div>
                     <div className="sk-mp-price">
@@ -335,6 +335,11 @@ export function MarketplaceContent(): React.ReactNode {
                       )}
                     </div>
                   </div>
+                  {skill.price === 0 ? (
+                    <span className="sk-mp-badge sk-mp-badge-free">Open Source</span>
+                  ) : (
+                    <span className="sk-mp-badge sk-mp-badge-paid">Premium</span>
+                  )}
 
                   <p className="sk-mp-card-desc">{skill.description}</p>
 

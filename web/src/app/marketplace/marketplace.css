@@ -151,8 +151,10 @@
 }
 
 .sk-mp-card-seller {
-  font-size: 12px;
-  color: var(--ink-light);
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
 }
 
 .sk-mp-price {
@@ -166,6 +168,27 @@
 .sk-mp-free {
   color: var(--color-m);
   font-size: 16px;
+}
+
+.sk-mp-badge {
+  display: inline-block;
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  margin-bottom: 10px;
+}
+
+.sk-mp-badge-free {
+  color: var(--color-m);
+  border: 1px solid var(--color-m);
+}
+
+.sk-mp-badge-paid {
+  color: var(--color-d);
+  border: 1px solid var(--color-d);
 }
 
 .sk-mp-card-desc {
