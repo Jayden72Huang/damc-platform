@@ -1,6 +1,49 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale } from "@/lib/i18n/I18nProvider";
+
+const COPY = {
+  zh: {
+    loading: "Loading report...",
+    notFoundTitle: "报告未找到",
+    notFoundDesc: "该报告不存在或已被删除",
+    backHome: "返回首页",
+    participantsSuffix: "位参与者中",
+    insightDistill: "值得蒸馏",
+    insightMoat: "护城河",
+    insightRisk: "风险点",
+    insightAction: "90 天行动",
+    bindTitle: "绑定你的结果",
+    bindDesc: "登录 GitHub 账号后，你的评分将出现在排行榜，还能加入团队排名。",
+    bindCta: "用 GitHub 登录绑定 →",
+    copied: "✓ 已复制",
+    copyShare: "复制分享文本",
+    testYours: "测测你的 DAMC",
+    shareLine: "测测你的 AI 时代价值 →",
+    dateLocale: "zh-CN",
+  },
+  en: {
+    loading: "Loading report...",
+    notFoundTitle: "Report not found",
+    notFoundDesc: "This report doesn't exist or has been deleted",
+    backHome: "Back to home",
+    participantsSuffix: "participants",
+    insightDistill: "Worth Distilling",
+    insightMoat: "Moats",
+    insightRisk: "Risks",
+    insightAction: "90-Day Actions",
+    bindTitle: "Bind your results",
+    bindDesc:
+      "Sign in with GitHub and your scores will appear on the leaderboard — plus you can join team rankings.",
+    bindCta: "Sign in with GitHub to bind →",
+    copied: "✓ Copied",
+    copyShare: "Copy share text",
+    testYours: "Test your own DAMC",
+    shareLine: "Measure your AI-era value →",
+    dateLocale: "en-US",
+  },
+};
 
 interface ReportData {
   id: string;
@@ -83,6 +126,8 @@ function InsightBlock({
 }
 
 export function ReportCard({ slug }: { slug: string }) {
+  const { locale } = useLocale();
+  const c = COPY[locale];
   const [data, setData] = useState<ReportData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -102,7 +147,7 @@ export function ReportCard({ slug }: { slug: string }) {
   if (loading) {
     return (
       <div style={{ textAlign: "center", padding: "80px 0", opacity: 0.4 }}>
-        Loading report...
+        {c.loading}
       </div>
     );
   }
@@ -112,13 +157,11 @@ export function ReportCard({ slug }: { slug: string }) {
       <div className="sk-dash-unauth">
         <div style={{ fontSize: 48, marginBottom: 16 }}>📄</div>
         <p className="sk-display" style={{ fontSize: 24 }}>
-          报告未找到
+          {c.notFoundTitle}
         </p>
-        <p style={{ opacity: 0.5, marginTop: 8 }}>
-          该报告不存在或已被删除
-        </p>
+        <p style={{ opacity: 0.5, marginTop: 8 }}>{c.notFoundDesc}</p>
         <a href="/" className="sk-btn" style={{ marginTop: 24 }}>
-          返回首页
+          {c.backHome}
         </a>
       </div>
     );
@@ -135,7 +178,7 @@ export function ReportCard({ slug }: { slug: string }) {
       `D ${data!.scores?.D ?? "—"} | A ${data!.scores?.A ?? "—"} | M ${data!.scores?.M ?? "—"} | C ${data!.scores?.C ?? "—"}`,
       `Overall: ${data!.overall}/100 · Grade ${data!.grade} · ${data!.percentileLabel}`,
       "",
-      `测测你的 AI 时代价值 → ${shareUrl}`,
+      `${c.shareLine} ${shareUrl}`,
     ].join("\n");
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
@@ -190,7 +233,7 @@ export function ReportCard({ slug }: { slug: string }) {
             {data.grade}
           </div>
           <div className="sk-dash-percentile">
-            {data.percentileLabel} · {data.globalTotal} 位参与者中
+            {data.percentileLabel} · {data.globalTotal} {c.participantsSuffix}
           </div>
         </div>
 
@@ -205,7 +248,7 @@ export function ReportCard({ slug }: { slug: string }) {
         {/* Meta */}
         <div className="sk-rpt-meta">
           <span>
-            {new Date(data.createdAt).toLocaleDateString("zh-CN", {
+            {new Date(data.createdAt).toLocaleDateString(c.dateLocale, {
               year: "numeric",
               month: "long",
               day: "numeric",
@@ -228,25 +271,25 @@ export function ReportCard({ slug }: { slug: string }) {
           </div>
           <div className="sk-rpt-insights-grid">
             <InsightBlock
-              title="值得蒸馏"
+              title={c.insightDistill}
               emoji="🧪"
               items={ins.distillTargets ?? []}
               color="var(--color-d)"
             />
             <InsightBlock
-              title="护城河"
+              title={c.insightMoat}
               emoji="🛡️"
               items={ins.moats ?? []}
               color="var(--color-m)"
             />
             <InsightBlock
-              title="风险点"
+              title={c.insightRisk}
               emoji="⚠️"
               items={ins.risks ?? []}
               color="var(--color-a)"
             />
             <InsightBlock
-              title="90 天行动"
+              title={c.insightAction}
               emoji="🎯"
               items={ins.actions ?? []}
               color="var(--color-c)"
@@ -321,13 +364,13 @@ export function ReportCard({ slug }: { slug: string }) {
       {!data.userId && (
         <div className="sk-rpt-bind-prompt">
           <p className="sk-display" style={{ fontSize: 14, letterSpacing: 2, marginBottom: 8 }}>
-            绑定你的结果
+            {c.bindTitle}
           </p>
           <p style={{ fontSize: 13, color: "var(--ink-light)", marginBottom: 12 }}>
-            登录 GitHub 账号后，你的评分将出现在排行榜，还能加入团队排名。
+            {c.bindDesc}
           </p>
           <a href="/login" className="sk-btn sk-btn-primary">
-            用 GitHub 登录绑定 →
+            {c.bindCta}
           </a>
         </div>
       )}
@@ -335,10 +378,10 @@ export function ReportCard({ slug }: { slug: string }) {
       {/* Share bar */}
       <div className="sk-rpt-share">
         <button className="sk-btn" onClick={handleCopy}>
-          {copied ? "✓ 已复制" : "复制分享文本"}
+          {copied ? c.copied : c.copyShare}
         </button>
         <a href="/" className="sk-btn-outline">
-          测测你的 DAMC
+          {c.testYours}
         </a>
       </div>
     </div>

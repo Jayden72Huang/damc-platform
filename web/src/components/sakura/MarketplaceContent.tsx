@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CopyCommand } from "./CopyCommand";
+import { useLocale } from "@/lib/i18n/I18nProvider";
 
 interface SkillListing {
   id: string;
@@ -26,6 +27,33 @@ interface SkillListing {
   sellerName: string | null;
   sellerImage: string | null;
 }
+
+const COPY = {
+  zh: {
+    desc: "AI 时代最值钱的不是代码，是被验证过的工作流。在这里你可以发现、安装其他开发者打造的 AI Agent Skills，也可以把自己的 Skills 上架分享或出售。",
+    how1Title: "找 Skill",
+    how1Desc: "浏览下方列表，按分类筛选你需要的能力。",
+    how2Title: "一键安装",
+    how2Desc: "复制卡片底部的安装命令，粘贴到你的 Agent 终端即可使用。",
+    how3Title: "上架你的 Skill",
+    how3Desc: "在 Agent 中运行下方命令，自动扫描并上架你的 Skills。",
+    cmdNote: "已安装 DAMC 的用户直接运行 · 需要 GitHub 登录",
+    listedSuffix: "skills listed · Free & Premium",
+    loading: "Loading...",
+  },
+  en: {
+    desc: "The most valuable thing in the AI era isn't code — it's proven workflows. Here you can discover and install AI Agent Skills built by other developers, and list your own Skills to share or sell.",
+    how1Title: "Find a Skill",
+    how1Desc: "Browse the list below and filter by category for the capability you need.",
+    how2Title: "Install in one click",
+    how2Desc: "Copy the install command at the bottom of a card and paste it into your Agent terminal.",
+    how3Title: "List your Skill",
+    how3Desc: "Run the command below in your Agent to auto-scan and list your Skills.",
+    cmdNote: "DAMC users can run this directly · GitHub login required",
+    listedSuffix: "skills listed · Free & Premium",
+    loading: "Loading...",
+  },
+};
 
 const CATEGORIES = [
   { id: "all", label: "All Skills", emoji: "🔥" },
@@ -245,6 +273,8 @@ function CopyInstall({ command }: { command: string }): React.ReactNode {
 }
 
 export function MarketplaceContent(): React.ReactNode {
+  const { locale } = useLocale();
+  const c = COPY[locale];
   const [activeCategory, setActiveCategory] = useState("all");
   const [allSkills, setAllSkills] = useState<SkillListing[]>(DEMO_SKILLS);
   const [loading, setLoading] = useState(true);
@@ -275,32 +305,28 @@ export function MarketplaceContent(): React.ReactNode {
             <p className="sk-mp-subtitle">
               Sell your Skills. Buy Superpowers.
             </p>
-            <p className="sk-mp-desc">
-              AI 时代最值钱的不是代码，是被验证过的工作流。
-              在这里你可以发现、安装其他开发者打造的 AI Agent Skills，
-              也可以把自己的 Skills 上架分享或出售。
-            </p>
+            <p className="sk-mp-desc">{c.desc}</p>
 
             <div className="sk-mp-how">
               <div className="sk-mp-how-item">
                 <span className="sk-mp-how-num">1</span>
                 <div>
-                  <strong>找 Skill</strong>
-                  <p>浏览下方列表，按分类筛选你需要的能力。</p>
+                  <strong>{c.how1Title}</strong>
+                  <p>{c.how1Desc}</p>
                 </div>
               </div>
               <div className="sk-mp-how-item">
                 <span className="sk-mp-how-num">2</span>
                 <div>
-                  <strong>一键安装</strong>
-                  <p>复制卡片底部的安装命令，粘贴到你的 Agent 终端即可使用。</p>
+                  <strong>{c.how2Title}</strong>
+                  <p>{c.how2Desc}</p>
                 </div>
               </div>
               <div className="sk-mp-how-item">
                 <span className="sk-mp-how-num">3</span>
                 <div>
-                  <strong>上架你的 Skill</strong>
-                  <p>在 Agent 中运行下方命令，自动扫描并上架你的 Skills。</p>
+                  <strong>{c.how3Title}</strong>
+                  <p>{c.how3Desc}</p>
                 </div>
               </div>
             </div>
@@ -308,13 +334,13 @@ export function MarketplaceContent(): React.ReactNode {
             <div style={{ maxWidth: 520, margin: "0 auto" }}>
               <CopyCommand command="/damc-scan-skill" />
               <p style={{ fontSize: 11, color: "var(--ink-light)", opacity: 0.4, marginTop: 6, textAlign: "center" }}>
-                已安装 DAMC 的用户直接运行 · 需要 GitHub 登录
+                {c.cmdNote}
               </p>
             </div>
 
             <div className="sk-mp-cta-row">
               <span className="sk-mp-stat">
-                {allSkills.length} skills listed · Free & Premium
+                {allSkills.length} {c.listedSuffix}
               </span>
             </div>
           </div>
@@ -337,7 +363,7 @@ export function MarketplaceContent(): React.ReactNode {
 
           {loading ? (
             <div style={{ textAlign: "center", padding: "40px 0", opacity: 0.4 }}>
-              Loading...
+              {c.loading}
             </div>
           ) : (
             <div className="sk-mp-grid">

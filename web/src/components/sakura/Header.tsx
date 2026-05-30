@@ -1,13 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale } from "@/lib/i18n/I18nProvider";
+import { LanguageToggle } from "./LanguageToggle";
 
 interface UserSession {
   name: string | null;
   image: string | null;
 }
 
+const COPY = {
+  zh: {
+    about: "关于",
+    sekill: "技能市场",
+    leaderboard: "排行榜",
+    dashboard: "控制台",
+    signIn: "登录",
+    logout: "退出",
+  },
+  en: {
+    about: "About",
+    sekill: "SeKill",
+    leaderboard: "Leaderboard",
+    dashboard: "Dashboard",
+    signIn: "Sign In",
+    logout: "Logout",
+  },
+};
+
 export function Header(): React.ReactNode {
+  const { locale } = useLocale();
+  const c = COPY[locale];
   const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState<UserSession | null>(null);
 
@@ -40,27 +63,28 @@ export function Header(): React.ReactNode {
             DAMC
           </a>
           <nav className="sk-nav">
-            <a href="/#what">About</a>
-            <a href="/marketplace">SeKill</a>
-            <a href="/leaderboard">Leaderboard</a>
+            <a href="/#what">{c.about}</a>
+            <a href="/marketplace">{c.sekill}</a>
+            <a href="/leaderboard">{c.leaderboard}</a>
             {user ? (
               <>
-                <a href="/dashboard">Dashboard</a>
+                <a href="/dashboard">{c.dashboard}</a>
                 <div className="sk-auth-area">
                   {user.image ? (
                     <img src={user.image} alt="" className="sk-auth-avatar" />
                   ) : null}
                   <span className="sk-auth-name">{user.name}</span>
                   <a href="/api/auth/signout" className="sk-auth-signout">
-                    Logout
+                    {c.logout}
                   </a>
                 </div>
               </>
             ) : (
               <a href="/login" className="sk-nav-cta">
-                Sign In
+                {c.signIn}
               </a>
             )}
+            <LanguageToggle />
           </nav>
         </div>
       </div>

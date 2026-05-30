@@ -1,4 +1,7 @@
+"use client";
+
 import { CopyCommand } from "./CopyCommand";
+import { useLocale } from "@/lib/i18n/I18nProvider";
 
 const R = 20;
 const CIRC = 2 * Math.PI * R; // ~125.66
@@ -10,27 +13,44 @@ const scores = [
   { letter: "C", color: "var(--color-c)", value: 72, name: "Career" },
 ] as const;
 
+const COPY = {
+  zh: {
+    subtitle: "AI 时代价值评估 · Know Your Worth",
+    tagline:
+      "一个命令扫描你的 AI 环境配置和 Git 历史，从 4 个维度量化你在 Agent 时代的竞争力坐标。",
+    scanNow: "立即免费体检",
+    learnMore: "了解更多 →",
+    archetype: "AI 架构师",
+  },
+  en: {
+    subtitle: "AI-Era Value Assessment · Know Your Worth",
+    tagline:
+      "One command scans your AI setup and Git history, quantifying where you stand in the Agent era across 4 dimensions.",
+    scanNow: "Scan me free",
+    learnMore: "Learn more →",
+    archetype: "AI Architect",
+  },
+};
+
 export function Hero(): React.ReactNode {
+  const { locale } = useLocale();
+  const c = COPY[locale];
+
   return (
     <section className="sk-hero">
       <div className="sk-container">
         <div className="sk-hero-inner">
           <div>
             <h1 className="sk-hero-title">DAMC</h1>
-            <p className="sk-hero-subtitle">
-              AI 时代价值评估 · Know Your Worth
-            </p>
-            <p className="sk-hero-tagline">
-              一个命令扫描你的 AI 环境配置和 Git 历史，从 4
-              个维度量化你在 Agent 时代的竞争力坐标。
-            </p>
+            <p className="sk-hero-subtitle">{c.subtitle}</p>
+            <p className="sk-hero-tagline">{c.tagline}</p>
 
             <div className="sk-hero-actions">
               <a href="#get-started" className="sk-stamp">
-                立即免费体检
+                {c.scanNow}
               </a>
               <a href="#what" className="sk-btn-outline sk-btn">
-                了解更多 →
+                {c.learnMore}
               </a>
             </div>
 
@@ -70,7 +90,7 @@ export function Hero(): React.ReactNode {
               <div className="sk-cert-preamble">has been assessed as</div>
               <div className="sk-cert-archetype">
                 <span className="sk-cert-emoji">🏆</span>
-                AI 架构师
+                {c.archetype}
               </div>
 
               {/* Score rings */}

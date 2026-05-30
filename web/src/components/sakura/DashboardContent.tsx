@@ -1,6 +1,32 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale } from "@/lib/i18n/I18nProvider";
+
+const COPY = {
+  zh: {
+    loading: "Loading...",
+    unauthTitle: "请先登录",
+    unauthDesc: "登录后查看你的 DAMC 评估历史和排名",
+    githubLogin: "GitHub 登录",
+    noRecordTitle: "还没有评估记录",
+    noRecordDescPre: "在 Claude Code 中运行",
+    noRecordDescPost: "开始你的首次评估",
+    participantsSuffix: "位参与者中",
+    scanHistory: "SCAN HISTORY",
+  },
+  en: {
+    loading: "Loading...",
+    unauthTitle: "Please sign in",
+    unauthDesc: "Sign in to view your DAMC history and rankings",
+    githubLogin: "Sign in with GitHub",
+    noRecordTitle: "No assessments yet",
+    noRecordDescPre: "Run",
+    noRecordDescPost: "in Claude Code to start your first assessment",
+    participantsSuffix: "participants",
+    scanHistory: "SCAN HISTORY",
+  },
+};
 
 interface ScoreEntry {
   slug: string;
@@ -64,6 +90,8 @@ function ScoreBar({
 }
 
 export function DashboardContent(): React.ReactNode {
+  const { locale } = useLocale();
+  const c = COPY[locale];
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -82,7 +110,7 @@ export function DashboardContent(): React.ReactNode {
   if (loading) {
     return (
       <div style={{ textAlign: "center", padding: "60px 0", opacity: 0.4 }}>
-        Loading...
+        {c.loading}
       </div>
     );
   }
@@ -92,13 +120,11 @@ export function DashboardContent(): React.ReactNode {
       <div className="sk-dash-unauth">
         <div style={{ fontSize: 48, marginBottom: 16 }}>🔒</div>
         <p className="sk-display" style={{ fontSize: 24 }}>
-          请先登录
+          {c.unauthTitle}
         </p>
-        <p style={{ opacity: 0.5, marginTop: 8 }}>
-          登录后查看你的 DAMC 评估历史和排名
-        </p>
+        <p style={{ opacity: 0.5, marginTop: 8 }}>{c.unauthDesc}</p>
         <a href="/api/auth/signin" className="sk-btn" style={{ marginTop: 24 }}>
-          GitHub 登录
+          {c.githubLogin}
         </a>
       </div>
     );
@@ -109,10 +135,10 @@ export function DashboardContent(): React.ReactNode {
       <div className="sk-dash-unauth">
         <div style={{ fontSize: 48, marginBottom: 16 }}>📊</div>
         <p className="sk-display" style={{ fontSize: 24 }}>
-          还没有评估记录
+          {c.noRecordTitle}
         </p>
         <p style={{ opacity: 0.5, marginTop: 8 }}>
-          在 Claude Code 中运行 <code>/damc</code> 开始你的首次评估
+          {c.noRecordDescPre} <code>/damc</code> {c.noRecordDescPost}
         </p>
       </div>
     );
@@ -148,7 +174,7 @@ export function DashboardContent(): React.ReactNode {
             {latest.grade}
           </div>
           <div className="sk-dash-percentile">
-            {latest.percentileLabel} · {globalTotal} 位参与者中
+            {latest.percentileLabel} · {globalTotal} {c.participantsSuffix}
           </div>
         </div>
 
@@ -166,7 +192,7 @@ export function DashboardContent(): React.ReactNode {
           className="sk-display"
           style={{ fontSize: 14, marginBottom: 16, letterSpacing: 2 }}
         >
-          SCAN HISTORY ({history.length})
+          {c.scanHistory} ({history.length})
         </div>
         {history.map((h) => (
           <a href={`/r/${h.slug}`} className="sk-dash-history-item" key={h.slug}>

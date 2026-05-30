@@ -1,14 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { useLocale } from "@/lib/i18n/I18nProvider";
+import type { Locale } from "@/lib/i18n/config";
 
 const features = [
   {
     id: "breakdown",
     icon: "📊",
-    title: "22 子维度深度拆解",
-    summary: "精准定位强项和短板",
-    desc: "不只是一个总分。每个维度下 5-6 个子项精准评估，帮你找到最值得提升的短板和最该放大的长板。",
+    title: { zh: "22 子维度深度拆解", en: "22 Sub-Dimension Breakdown" },
+    summary: { zh: "精准定位强项和短板", en: "Pinpoint your strengths and gaps" },
+    desc: {
+      zh: "不只是一个总分。每个维度下 5-6 个子项精准评估，帮你找到最值得提升的短板和最该放大的长板。",
+      en: "Not just one score. Each dimension is scored across 5-6 sub-items, helping you find the gap worth closing and the strength worth amplifying.",
+    },
     tag: "Insight",
     tagColor: "var(--color-d)",
     preview: "breakdown",
@@ -16,9 +21,15 @@ const features = [
   {
     id: "distill",
     icon: "🧬",
-    title: "可蒸馏清单",
-    summary: "哪些工作流能变成 AI 替你干",
-    desc: "自动识别你最高频、最有价值的工作流，告诉你哪些可以蒸馏为 AI Skill 来放大你的影响力。",
+    title: { zh: "可蒸馏清单", en: "Distillation Checklist" },
+    summary: {
+      zh: "哪些工作流能变成 AI 替你干",
+      en: "Which workflows AI can run for you",
+    },
+    desc: {
+      zh: "自动识别你最高频、最有价值的工作流，告诉你哪些可以蒸馏为 AI Skill 来放大你的影响力。",
+      en: "Automatically spots your most frequent, most valuable workflows and tells you which to distill into AI Skills to amplify your impact.",
+    },
     tag: "Distill",
     tagColor: "var(--color-m)",
     preview: "distill",
@@ -26,9 +37,12 @@ const features = [
   {
     id: "moat",
     icon: "🛡️",
-    title: "护城河识别",
-    summary: "哪些能力 AI 拿不走",
-    desc: "找出你最难被 AI 替代的核心能力。跨领域整合、社区信任、模糊决策 — 你的不可蒸馏优势。",
+    title: { zh: "护城河识别", en: "Moat Detection" },
+    summary: { zh: "哪些能力 AI 拿不走", en: "Which abilities AI can't take" },
+    desc: {
+      zh: "找出你最难被 AI 替代的核心能力。跨领域整合、社区信任、模糊决策 — 你的不可蒸馏优势。",
+      en: "Surfaces the core abilities AI can least replace — cross-domain integration, community trust, judgment under ambiguity: your non-distillable edge.",
+    },
     tag: "Moat",
     tagColor: "var(--color-a)",
     preview: "moat",
@@ -36,9 +50,12 @@ const features = [
   {
     id: "track",
     icon: "📈",
-    title: "进度追踪",
-    summary: "每次复测看到成长曲线",
-    desc: "本地追踪你的 DAMC 分数变化。每次复测都看到进步曲线，让成长可量化、可感知。",
+    title: { zh: "进度追踪", en: "Progress Tracking" },
+    summary: { zh: "每次复测看到成长曲线", en: "See your growth curve each rescan" },
+    desc: {
+      zh: "本地追踪你的 DAMC 分数变化。每次复测都看到进步曲线，让成长可量化、可感知。",
+      en: "Track your DAMC scores locally. Every rescan shows your progress curve, making growth measurable and tangible.",
+    },
     tag: "V2 · New",
     tagColor: "var(--color-c)",
     preview: "track",
@@ -46,9 +63,12 @@ const features = [
   {
     id: "recommend",
     icon: "🎯",
-    title: "智能 Skill 推荐",
-    summary: "AI 教练帮你补短板",
-    desc: "基于你的维度短板和职业画像，AI Coach 推荐最适合你的技能学习路径和 Skill 工具。",
+    title: { zh: "智能 Skill 推荐", en: "Smart Skill Recommendations" },
+    summary: { zh: "AI 教练帮你补短板", en: "An AI coach to close your gaps" },
+    desc: {
+      zh: "基于你的维度短板和职业画像，AI Coach 推荐最适合你的技能学习路径和 Skill 工具。",
+      en: "Based on your weak dimensions and career archetype, the AI Coach recommends the learning path and Skill tools that fit you best.",
+    },
     tag: "V2 · New",
     tagColor: "var(--color-c)",
     preview: "recommend",
@@ -56,16 +76,22 @@ const features = [
   {
     id: "team",
     icon: "🏆",
-    title: "团队排行榜",
-    summary: "看看谁是团队里的 AI 高手",
-    desc: "找到你身边与 Agent 协作最强的人！团队内 DAMC 排名、Skill 互相分享、季度团队报告。",
+    title: { zh: "团队排行榜", en: "Team Leaderboard" },
+    summary: {
+      zh: "看看谁是团队里的 AI 高手",
+      en: "See who's the AI pro on your team",
+    },
+    desc: {
+      zh: "找到你身边与 Agent 协作最强的人！团队内 DAMC 排名、Skill 互相分享、季度团队报告。",
+      en: "Find the strongest Agent collaborators around you! In-team DAMC rankings, shared Skills, and quarterly team reports.",
+    },
     tag: "V2 · New",
     tagColor: "var(--color-c)",
     preview: "team",
   },
 ] as const;
 
-function BreakdownPreview(): React.ReactNode {
+function BreakdownPreview({ locale }: { locale: Locale }): React.ReactNode {
   const subs = [
     { name: "Expertise", val: 82 },
     { name: "Methodology", val: 65 },
@@ -73,6 +99,10 @@ function BreakdownPreview(): React.ReactNode {
     { name: "Standardization", val: 72 },
     { name: "Demand", val: 83 },
   ];
+  const insight = {
+    zh: "Codifiability 是你的最强子项 — 你的工作流高度结构化，非常适合蒸馏。",
+    en: "Codifiability is your strongest sub-item — your workflows are highly structured and ideal for distilling.",
+  };
   return (
     <div className="sk-bp-card">
       <div className="sk-bp-card-head sk-bg-d">
@@ -94,30 +124,47 @@ function BreakdownPreview(): React.ReactNode {
         ))}
         <div className="sk-bp-insight">
           <span className="sk-bp-insight-icon">💡</span>
-          Codifiability 是你的最强子项 — 你的工作流高度结构化，非常适合蒸馏。
+          {insight[locale]}
         </div>
       </div>
     </div>
   );
 }
 
-function DistillPreview(): React.ReactNode {
+function DistillPreview({ locale }: { locale: Locale }): React.ReactNode {
   const items = [
-    { name: "SEO 内容工作流", from: "article-rewriter → programmatic-seo → backlink", priority: "High" },
-    { name: "代码审查方法论", from: "review checklist → PR template → auto-check", priority: "High" },
-    { name: "数据分析流程", from: "data-pull → clean → visualize → report", priority: "Medium" },
+    {
+      name: { zh: "SEO 内容工作流", en: "SEO content workflow" },
+      from: "article-rewriter → programmatic-seo → backlink",
+      priority: "High",
+    },
+    {
+      name: { zh: "代码审查方法论", en: "Code review methodology" },
+      from: "review checklist → PR template → auto-check",
+      priority: "High",
+    },
+    {
+      name: { zh: "数据分析流程", en: "Data analysis pipeline" },
+      from: "data-pull → clean → visualize → report",
+      priority: "Medium",
+    },
   ];
+  const head = { zh: "可蒸馏清单", en: "Distillation Checklist" };
+  const insight = {
+    zh: "这些工作流蒸馏为 Skill 后，预计每周可节省 6-8 小时。",
+    en: "Distilled into Skills, these workflows could save an estimated 6-8 hours per week.",
+  };
   return (
     <div className="sk-bp-card">
       <div className="sk-bp-card-head sk-bg-m">
-        <span>可蒸馏清单</span>
+        <span>{head[locale]}</span>
         <span className="sk-bp-card-score">3 items</span>
       </div>
       <div className="sk-bp-card-body">
         {items.map((item, i) => (
           <div className="sk-bp-distill-item" key={i}>
             <div className="sk-bp-distill-header">
-              <span className="sk-bp-distill-name">{item.name}</span>
+              <span className="sk-bp-distill-name">{item.name[locale]}</span>
               <span
                 className="sk-bp-distill-priority"
                 style={{
@@ -132,33 +179,50 @@ function DistillPreview(): React.ReactNode {
         ))}
         <div className="sk-bp-insight">
           <span className="sk-bp-insight-icon">🧬</span>
-          这些工作流蒸馏为 Skill 后，预计每周可节省 6-8 小时。
+          {insight[locale]}
         </div>
       </div>
     </div>
   );
 }
 
-function MoatPreview(): React.ReactNode {
+function MoatPreview({ locale }: { locale: Locale }): React.ReactNode {
   const moats = [
-    { name: "跨领域整合", val: 78, desc: "技术+内容+营销三栖能力" },
-    { name: "社区信任", val: 72, desc: "行业人脉和信誉资产" },
-    { name: "模糊决策", val: 68, desc: "不确定性下的判断力" },
+    {
+      name: { zh: "跨领域整合", en: "Cross-domain integration" },
+      val: 78,
+      desc: { zh: "技术+内容+营销三栖能力", en: "Tech + content + marketing in one" },
+    },
+    {
+      name: { zh: "社区信任", en: "Community trust" },
+      val: 72,
+      desc: { zh: "行业人脉和信誉资产", en: "Industry network and reputation capital" },
+    },
+    {
+      name: { zh: "模糊决策", en: "Ambiguous decisions" },
+      val: 68,
+      desc: { zh: "不确定性下的判断力", en: "Judgment under uncertainty" },
+    },
   ];
+  const head = { zh: "护城河分析", en: "Moat Analysis" };
+  const insight = {
+    zh: "你的跨领域整合能力是最强护城河 — AI 难以复制跨域经验积累。",
+    en: "Cross-domain integration is your strongest moat — AI struggles to replicate accumulated cross-field experience.",
+  };
   return (
     <div className="sk-bp-card">
       <div className="sk-bp-card-head sk-bg-a">
-        <span>护城河分析</span>
+        <span>{head[locale]}</span>
         <span className="sk-bp-card-score">A · Anti-Distillation</span>
       </div>
       <div className="sk-bp-card-body">
         {moats.map((m) => (
-          <div className="sk-bp-moat-item" key={m.name}>
+          <div className="sk-bp-moat-item" key={m.name.en}>
             <div className="sk-bp-moat-top">
-              <span className="sk-bp-moat-name">🛡️ {m.name}</span>
+              <span className="sk-bp-moat-name">🛡️ {m.name[locale]}</span>
               <span className="sk-bp-moat-val" style={{ color: "var(--color-a)" }}>{m.val}</span>
             </div>
-            <div className="sk-bp-moat-desc">{m.desc}</div>
+            <div className="sk-bp-moat-desc">{m.desc[locale]}</div>
             <div className="sk-bp-bar-track">
               <div
                 className="sk-bp-bar-fill"
@@ -169,24 +233,29 @@ function MoatPreview(): React.ReactNode {
         ))}
         <div className="sk-bp-insight">
           <span className="sk-bp-insight-icon">🛡️</span>
-          你的跨领域整合能力是最强护城河 — AI 难以复制跨域经验积累。
+          {insight[locale]}
         </div>
       </div>
     </div>
   );
 }
 
-function TrackPreview(): React.ReactNode {
+function TrackPreview({ locale }: { locale: Locale }): React.ReactNode {
   const history = [
     { date: "Mar 12", d: 65, a: 58, m: 72, c: 55 },
     { date: "Apr 02", d: 70, a: 60, m: 78, c: 60 },
     { date: "Apr 25", d: 74, a: 62, m: 82, c: 63 },
     { date: "May 15", d: 78, a: 65, m: 85, c: 72 },
   ];
+  const head = { zh: "分数趋势", en: "Score Trend" };
+  const insight = {
+    zh: "M 维度增长最快（+13），AI 驾驭力显著提升。",
+    en: "M grew the fastest (+13) — a clear jump in AI mastery.",
+  };
   return (
     <div className="sk-bp-card">
       <div className="sk-bp-card-head sk-bg-c">
-        <span>分数趋势</span>
+        <span>{head[locale]}</span>
         <span className="sk-bp-card-score">+18 pts / 3mo</span>
       </div>
       <div className="sk-bp-card-body">
@@ -208,23 +277,40 @@ function TrackPreview(): React.ReactNode {
         </div>
         <div className="sk-bp-insight">
           <span className="sk-bp-insight-icon">📈</span>
-          M 维度增长最快（+13），AI 驾驭力显著提升。
+          {insight[locale]}
         </div>
       </div>
     </div>
   );
 }
 
-function RecommendPreview(): React.ReactNode {
+function RecommendPreview({ locale }: { locale: Locale }): React.ReactNode {
   const recs = [
-    { skill: "prompt-engineer", reason: "补强 M·Advanced 子维度", match: 94 },
-    { skill: "code-reviewer", reason: "提升 D·Methodology 蒸馏价值", match: 88 },
-    { skill: "cross-domain-thinker", reason: "强化 A·CrossDomain 护城河", match: 82 },
+    {
+      skill: "prompt-engineer",
+      reason: { zh: "补强 M·Advanced 子维度", en: "Strengthens the M·Advanced sub-dimension" },
+      match: 94,
+    },
+    {
+      skill: "code-reviewer",
+      reason: { zh: "提升 D·Methodology 蒸馏价值", en: "Raises D·Methodology distillation value" },
+      match: 88,
+    },
+    {
+      skill: "cross-domain-thinker",
+      reason: { zh: "强化 A·CrossDomain 护城河", en: "Reinforces the A·CrossDomain moat" },
+      match: 82,
+    },
   ];
+  const head = { zh: "Skill 推荐", en: "Skill Recommendations" };
+  const insight = {
+    zh: "基于你的 M·Advanced 短板，优先推荐 prompt-engineer skill。",
+    en: "Given your M·Advanced gap, prompt-engineer is the top pick.",
+  };
   return (
     <div className="sk-bp-card">
       <div className="sk-bp-card-head sk-bg-c">
-        <span>Skill 推荐</span>
+        <span>{head[locale]}</span>
         <span className="sk-bp-card-score">AI Coach</span>
       </div>
       <div className="sk-bp-card-body">
@@ -234,25 +320,29 @@ function RecommendPreview(): React.ReactNode {
               <span className="sk-bp-rec-skill">⚡ {r.skill}</span>
               <span className="sk-bp-rec-match">{r.match}% match</span>
             </div>
-            <div className="sk-bp-rec-reason">{r.reason}</div>
+            <div className="sk-bp-rec-reason">{r.reason[locale]}</div>
           </div>
         ))}
         <div className="sk-bp-insight">
           <span className="sk-bp-insight-icon">🎯</span>
-          基于你的 M·Advanced 短板，优先推荐 prompt-engineer skill。
+          {insight[locale]}
         </div>
       </div>
     </div>
   );
 }
 
-function TeamPreview(): React.ReactNode {
+function TeamPreview({ locale }: { locale: Locale }): React.ReactNode {
   const members = [
-    { rank: 1, name: "Alex W.", score: 82, archetype: "AI 架构师" },
-    { rank: 2, name: "你", score: 75, archetype: "AI 架构师", isYou: true },
-    { rank: 3, name: "Sarah L.", score: 71, archetype: "跨界整合者" },
-    { rank: 4, name: "Kevin Z.", score: 68, archetype: "效率工匠" },
+    { rank: 1, name: { zh: "Alex W.", en: "Alex W." }, score: 82, archetype: { zh: "AI 架构师", en: "AI Architect" } },
+    { rank: 2, name: { zh: "你", en: "You" }, score: 75, archetype: { zh: "AI 架构师", en: "AI Architect" }, isYou: true },
+    { rank: 3, name: { zh: "Sarah L.", en: "Sarah L." }, score: 71, archetype: { zh: "跨界整合者", en: "Cross-Domain Integrator" } },
+    { rank: 4, name: { zh: "Kevin Z.", en: "Kevin Z." }, score: 68, archetype: { zh: "效率工匠", en: "Efficiency Craftsman" } },
   ];
+  const insight = {
+    zh: "你距离团队 #1 只差 7 分 — 重点提升 A 维度可超越！",
+    en: "You're just 7 points from team #1 — focus on A to overtake!",
+  };
   return (
     <div className="sk-bp-card">
       <div className="sk-bp-card-head" style={{ background: "var(--ink)", color: "var(--paper)" }}>
@@ -266,21 +356,21 @@ function TeamPreview(): React.ReactNode {
             key={m.rank}
           >
             <span className="sk-bp-team-rank">#{m.rank}</span>
-            <span className="sk-bp-team-name">{m.name}</span>
-            <span className="sk-bp-team-arch">{m.archetype}</span>
+            <span className="sk-bp-team-name">{m.name[locale]}</span>
+            <span className="sk-bp-team-arch">{m.archetype[locale]}</span>
             <span className="sk-bp-team-score">{m.score}</span>
           </div>
         ))}
         <div className="sk-bp-insight">
           <span className="sk-bp-insight-icon">🏆</span>
-          你距离团队 #1 只差 7 分 — 重点提升 A 维度可超越！
+          {insight[locale]}
         </div>
       </div>
     </div>
   );
 }
 
-const previews: Record<string, () => React.ReactNode> = {
+const previews: Record<string, (props: { locale: Locale }) => React.ReactNode> = {
   breakdown: BreakdownPreview,
   distill: DistillPreview,
   moat: MoatPreview,
@@ -289,7 +379,28 @@ const previews: Record<string, () => React.ReactNode> = {
   team: TeamPreview,
 };
 
+const COPY = {
+  zh: {
+    intro: (
+      <>
+        别人只给你一个模糊的&quot;AI 能力分&quot;。DAMC 拆到 22 个子维度，告诉你
+        <strong>哪些工作流该交给 AI、哪些能力是你的护城河、下一步该练什么</strong>。一次扫描，看清自己在 AI 时代的真实位置。
+      </>
+    ),
+  },
+  en: {
+    intro: (
+      <>
+        Others give you a vague &quot;AI score.&quot; DAMC breaks it into 22 sub-dimensions and tells you{" "}
+        <strong>which workflows to hand to AI, which abilities are your moat, and what to practice next</strong>. One scan to see exactly where you stand in the AI era.
+      </>
+    ),
+  },
+};
+
 export function Benefits(): React.ReactNode {
+  const { locale } = useLocale();
+  const c = COPY[locale];
   const [active, setActive] = useState("breakdown");
 
   const Preview = previews[active];
@@ -302,9 +413,7 @@ export function Benefits(): React.ReactNode {
           Why DAMC
         </div>
 
-        <p className="sk-section-intro">
-          别人只给你一个模糊的"AI 能力分"。DAMC 拆到 22 个子维度，告诉你<strong>哪些工作流该交给 AI、哪些能力是你的护城河、下一步该练什么</strong>。一次扫描，看清自己在 AI 时代的真实位置。
-        </p>
+        <p className="sk-section-intro">{c.intro}</p>
 
         <div className="sk-benefits-layout">
           <div className="sk-benefits-tabs">
@@ -318,8 +427,8 @@ export function Benefits(): React.ReactNode {
                 <div className="sk-benefits-tab-header">
                   <span className="sk-benefits-tab-icon">{f.icon}</span>
                   <div className="sk-benefits-tab-text">
-                    <span className="sk-benefits-tab-title">{f.title}</span>
-                    <span className="sk-benefits-tab-summary">{f.summary}</span>
+                    <span className="sk-benefits-tab-title">{f.title[locale]}</span>
+                    <span className="sk-benefits-tab-summary">{f.summary[locale]}</span>
                   </div>
                   {f.tag.includes("V2") && (
                     <span
@@ -332,7 +441,7 @@ export function Benefits(): React.ReactNode {
                 </div>
                 {active === f.id && (
                   <div className="sk-benefits-tab-body">
-                    <p className="sk-benefits-tab-desc">{f.desc}</p>
+                    <p className="sk-benefits-tab-desc">{f.desc[locale]}</p>
                     <span
                       className="sk-feature-tag"
                       style={{ borderColor: f.tagColor, color: f.tagColor }}
@@ -346,7 +455,7 @@ export function Benefits(): React.ReactNode {
           </div>
 
           <div className="sk-benefits-preview">
-            {Preview ? <Preview /> : null}
+            {Preview ? <Preview locale={locale} /> : null}
           </div>
         </div>
       </div>

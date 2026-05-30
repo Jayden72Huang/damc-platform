@@ -7,6 +7,7 @@ import "../sakura.css";
 import { Header } from "@/components/sakura/Header";
 import { Footer } from "@/components/sakura/Footer";
 import { LeaderboardTable } from "@/components/sakura/LeaderboardTable";
+import { LeaderboardIntro } from "@/components/sakura/LeaderboardIntro";
 
 const display = Big_Shoulders({
   subsets: ["latin"],
@@ -43,27 +44,7 @@ export default function LeaderboardPage(): React.ReactNode {
             <span className="sk-section-num">★</span>
             Leaderboard
           </div>
-          <p className="sk-what-intro">
-            所有完成 DAMC 扫描并登录 GitHub 的用户按 AI 时代综合分排名。
-            找到你身边与 Agent 协作最强的人。
-          </p>
-
-          <div className="sk-lb-guide">
-            <div className="sk-lb-guide-item">
-              <strong>上榜</strong>
-              <span>运行 /damc 完成扫描，用 GitHub 登录后自动排名</span>
-            </div>
-            <div className="sk-lb-guide-sep">·</div>
-            <div className="sk-lb-guide-item">
-              <strong>建团队</strong>
-              <span>点击「+ 创建」，获取邀请码发给队友，组队 PK</span>
-            </div>
-            <div className="sk-lb-guide-sep">·</div>
-            <div className="sk-lb-guide-item">
-              <strong>加入团队</strong>
-              <span>点击「🔗 加入」，输入邀请码即可查看团队排名</span>
-            </div>
-          </div>
+          <LeaderboardIntro />
 
           <LeaderboardTable />
         </div>
