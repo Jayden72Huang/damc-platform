@@ -12,8 +12,8 @@ const faqs = [
   {
     question: { zh: "怎么安装 DAMC Skill？", en: "How do I install the DAMC Skill?" },
     answer: {
-      zh: "推荐：npx skills add Jayden72Huang/damc-skill。也可以 git clone https://github.com/Jayden72Huang/damc-skill.git ~/.claude/skills/damc。安装后在 Claude Code 中输入 /damc 即可触发。",
-      en: "Recommended: npx skills add Jayden72Huang/damc-skill. Or git clone https://github.com/Jayden72Huang/damc-skill.git ~/.claude/skills/damc. After installing, type /damc in Claude Code to trigger it.",
+      zh: "推荐：npx skills add Jayden72Huang/damc-skill -g -y --agent claude-code。也可以 git clone https://github.com/Jayden72Huang/damc-skill.git ~/.claude/skills/damc。安装后在 Claude Code 中输入 /damc 即可触发。",
+      en: "Recommended: npx skills add Jayden72Huang/damc-skill -g -y --agent claude-code. Or git clone https://github.com/Jayden72Huang/damc-skill.git ~/.claude/skills/damc. After installing, type /damc in Claude Code to trigger it.",
     },
   },
   {

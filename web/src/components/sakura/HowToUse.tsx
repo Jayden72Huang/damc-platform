@@ -4,7 +4,17 @@ import { useState } from "react";
 import { CopyCommand } from "./CopyCommand";
 import { useLocale } from "@/lib/i18n/I18nProvider";
 
-const agents = [
+type Bilingual = { zh: string; en: string };
+type Step = {
+  num: string;
+  title: Bilingual;
+  desc: Bilingual;
+  command: string | null;
+  copyText: Bilingual | null;
+};
+type AgentDef = { id: string; name: Bilingual; icon: string; steps: Step[] };
+
+const agents: AgentDef[] = [
   {
     id: "claude",
     name: { zh: "Claude Code", en: "Claude Code" },
@@ -14,10 +24,11 @@ const agents = [
         num: "01",
         title: { zh: "安装 Skill", en: "Install the Skill" },
         desc: {
-          zh: "一行命令安装 DAMC 评估 Skill。",
-          en: "Install the DAMC assessment Skill with one command.",
+          zh: "一行命令安装 DAMC 评估 Skill（默认装到 Claude Code）。",
+          en: "Install the DAMC assessment Skill with one command (defaults to Claude Code).",
         },
-        command: "npx skills add Jayden72Huang/damc-skill",
+        command: "npx skills add Jayden72Huang/damc-skill -g -y --agent claude-code",
+        copyText: null,
       },
       {
         num: "02",
@@ -27,6 +38,7 @@ const agents = [
           en: "Type /damc in any project directory to auto-scan all your AI Agent environments.",
         },
         command: "/damc",
+        copyText: null,
       },
       {
         num: "03",
@@ -36,6 +48,7 @@ const agents = [
           en: "Get your 4-dimension scores + archetype instantly in the terminal. Upload to damc.space to unlock the full analysis.",
         },
         command: null,
+        copyText: null,
       },
     ],
   },
@@ -52,15 +65,20 @@ const agents = [
           en: "Download the DAMC Skill locally with one command — works with any AI Agent.",
         },
         command: "git clone https://github.com/Jayden72Huang/damc-skill.git",
+        copyText: null,
       },
       {
         num: "02",
         title: { zh: "运行扫描", en: "Run the scan" },
         desc: {
-          zh: '打开你的 Agent（Cursor、Windsurf、Trae 等），说「读取 damc-skill/SKILL.md 并执行」。',
-          en: 'Open your Agent (Cursor, Windsurf, Trae, etc.) and say "Read damc-skill/SKILL.md and run it".',
+          zh: "打开你的 Agent（Cursor、Windsurf、Trae 等），把下面这句话发给它：",
+          en: "Open your Agent (Cursor, Windsurf, Trae, etc.) and send it this prompt:",
         },
         command: null,
+        copyText: {
+          zh: "读取 damc-skill/SKILL.md 并执行",
+          en: "Read damc-skill/SKILL.md and run it",
+        },
       },
       {
         num: "03",
@@ -70,10 +88,11 @@ const agents = [
           en: "DAMC auto-scans every AI Agent environment on your system and generates a 4-dimension report. Upload to damc.space to unlock the full analysis.",
         },
         command: null,
+        copyText: null,
       },
     ],
   },
-] as const;
+];
 
 const COPY = {
   zh: {
@@ -123,6 +142,7 @@ export function HowToUse(): React.ReactNode {
               <div className="sk-process-title">{s.title[locale]}</div>
               <p className="sk-process-desc">{s.desc[locale]}</p>
               {s.command ? <CopyCommand command={s.command} /> : null}
+              {s.copyText ? <CopyCommand command={s.copyText[locale]} /> : null}
             </div>
           ))}
         </div>

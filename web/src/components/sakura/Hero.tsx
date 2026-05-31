@@ -25,7 +25,7 @@ const COPY = {
   en: {
     subtitle: "AI-Era Value Assessment · Know Your Worth",
     tagline:
-      "One command scans your AI setup and Git history, quantifying where you stand in the Agent era across 4 dimensions.",
+      "One skill scans your AI setup and Git history, quantifying where you stand in the Agent era across 4 dimensions.",
     scanNow: "Scan me free",
     learnMore: "Learn more →",
     archetype: "AI Architect",
@@ -55,7 +55,7 @@ export function Hero(): React.ReactNode {
             </div>
 
             <CopyCommand
-              command="npx skills add Jayden72Huang/damc-skill"
+              command="npx skills add Jayden72Huang/damc-skill -g -y --agent claude-code"
               className="mt-6"
             />
           </div>

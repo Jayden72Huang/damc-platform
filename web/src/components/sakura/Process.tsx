@@ -5,7 +5,7 @@ const steps = [
     num: "01",
     title: "装 Skill",
     desc: "一行命令安装",
-    command: "npx skills add Jayden72Huang/damc-skill",
+    command: "npx skills add Jayden72Huang/damc-skill -g -y --agent claude-code",
   },
   {
     num: "02",

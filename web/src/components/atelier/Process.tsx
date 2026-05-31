@@ -10,7 +10,7 @@ const steps = [
       zh: "一行命令，把 DAMC 测评能力加入你的 Claude Code 工作环境。",
       en: "One command adds DAMC's assessment capability to your Claude Code environment.",
     },
-    command: { zh: "npx skills add Jayden72Huang/damc-skill", en: "npx skills add Jayden72Huang/damc-skill" },
+    command: { zh: "npx skills add Jayden72Huang/damc-skill -g -y --agent claude-code", en: "npx skills add Jayden72Huang/damc-skill -g -y --agent claude-code" },
   },
   {
     number: "02",

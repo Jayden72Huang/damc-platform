@@ -2,7 +2,7 @@
 
 import { useLocale } from "@/lib/i18n/I18nProvider";
 
-const installCommand = "npx skills add Jayden72Huang/damc-skill";
+const installCommand = "npx skills add Jayden72Huang/damc-skill -g -y --agent claude-code";
 
 const COPY = {
   zh: {

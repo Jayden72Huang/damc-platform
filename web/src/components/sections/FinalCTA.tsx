@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CopyCommand } from "@/components/sections/CopyCommand";
 
-const installCommand = "npx skills add Jayden72Huang/damc-skill";
+const installCommand = "npx skills add Jayden72Huang/damc-skill -g -y --agent claude-code";
 
 export function FinalCTA(): React.ReactNode {
   return (
