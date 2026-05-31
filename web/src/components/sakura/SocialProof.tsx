@@ -75,8 +75,8 @@ export function SocialProof(): React.ReactNode {
             <h3 className="sk-eco-title">{c.sekillTitle}</h3>
             <p className="sk-eco-desc">{c.sekillDesc}</p>
             <ul className="sk-eco-list">
-              {c.sekillList.map((item) => (
-                <li key={item}>{item}</li>
+              {c.sekillList.map((item, index) => (
+                <li key={index}>{item}</li>
               ))}
             </ul>
             <a href="/marketplace" className="sk-process-link">
@@ -89,8 +89,8 @@ export function SocialProof(): React.ReactNode {
             <h3 className="sk-eco-title">{c.teamTitle}</h3>
             <p className="sk-eco-desc">{c.teamDesc}</p>
             <ul className="sk-eco-list">
-              {c.teamList.map((item) => (
-                <li key={item}>{item}</li>
+              {c.teamList.map((item, index) => (
+                <li key={index}>{item}</li>
               ))}
             </ul>
             <a href="/leaderboard" className="sk-process-link">

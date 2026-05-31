@@ -45,8 +45,8 @@ export function Coach(): React.ReactNode {
           <div>
             <h2 className="atelier-display atelier-coach-title">{c.title}</h2>
             <ul className="atelier-coach-list">
-              {c.bullets.map((bullet) => (
-                <li key={bullet}>
+              {c.bullets.map((bullet, index) => (
+                <li key={index}>
                   <span className="atelier-coach-dot" aria-hidden="true" />
                   <span>{bullet}</span>
                 </li>

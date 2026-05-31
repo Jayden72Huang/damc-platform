@@ -4,10 +4,12 @@ import { useLocale } from "@/lib/i18n/I18nProvider";
 
 const COPY = {
   zh: {
+    title: "登录",
     desc: "登录后你的 DAMC 评估结果将绑定到你的账户，可以查看历史和排名。",
     cta: "使用 GitHub 登录",
   },
   en: {
+    title: "Sign In",
     desc: "Sign in to bind your DAMC results to your account, so you can view history and rankings.",
     cta: "Continue with GitHub",
   },
@@ -20,7 +22,7 @@ export function LoginForm(): React.ReactNode {
   return (
     <div className="sk-login-box">
       <div className="sk-display" style={{ fontSize: 36, marginBottom: 8 }}>
-        Sign In
+        {c.title}
       </div>
       <p style={{ opacity: 0.5, marginBottom: 32 }}>{c.desc}</p>
       <a href="/api/auth/signin/github" className="sk-btn">

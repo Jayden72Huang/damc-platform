@@ -64,8 +64,8 @@ export function Privacy(): React.ReactNode {
         </div>
 
         <div className="atelier-promises">
-          {c.promises.map((promise) => (
-            <span className="atelier-promise" key={promise}>
+          {c.promises.map((promise, index) => (
+            <span className="atelier-promise" key={index}>
               {promise}
             </span>
           ))}
@@ -86,8 +86,8 @@ function DataTable({
     <article className="atelier-data-table">
       <h3 className="atelier-data-heading">{title}</h3>
       <ul className="atelier-data-list">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li key={index}>{item}</li>
         ))}
       </ul>
     </article>

@@ -123,8 +123,8 @@ export function Pricing(): React.ReactNode {
                 ) : null}
               </div>
               <ul className="atelier-price-features">
-                {tier.features[locale].map((feature) => (
-                  <li key={feature}>{feature}</li>
+                {tier.features[locale].map((feature, index) => (
+                  <li key={index}>{feature}</li>
                 ))}
               </ul>
               <a

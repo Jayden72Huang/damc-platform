@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
-import { LOCALE_COOKIE, normalizeLocale } from "@/lib/i18n/config";
+import { LOCALE_COOKIE, localeToHtmlLang, normalizeLocale } from "@/lib/i18n/config";
 
 export const metadata: Metadata = {
   title: "DAMC.ai | 你的 Agent 体检报告 / Know Your Worth",
@@ -20,7 +20,7 @@ export default async function RootLayout({
 
   return (
     <html
-      lang={locale === "en" ? "en" : "zh-CN"}
+      lang={localeToHtmlLang(locale)}
       className="h-full scroll-smooth antialiased"
     >
       <body className="flex min-h-full flex-col">

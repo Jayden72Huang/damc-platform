@@ -36,8 +36,8 @@ export function PainPoints(): React.ReactNode {
         <p className="atelier-pain-sub">{c.sub}</p>
 
         <div className="atelier-pain-grid">
-          {c.painPoints.map((item) => (
-            <p className="atelier-pain-item" key={item}>
+          {c.painPoints.map((item, index) => (
+            <p className="atelier-pain-item" key={index}>
               {item}
             </p>
           ))}

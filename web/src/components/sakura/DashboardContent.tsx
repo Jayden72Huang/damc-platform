@@ -14,6 +14,7 @@ const COPY = {
     noRecordDescPost: "开始你的首次评估",
     participantsSuffix: "位参与者中",
     scanHistory: "SCAN HISTORY",
+    dateLocale: "zh-CN",
   },
   en: {
     loading: "Loading...",
@@ -25,6 +26,7 @@ const COPY = {
     noRecordDescPost: "in Claude Code to start your first assessment",
     participantsSuffix: "participants",
     scanHistory: "SCAN HISTORY",
+    dateLocale: "en-US",
   },
 };
 
@@ -202,7 +204,7 @@ export function DashboardContent(): React.ReactNode {
             </div>
             <div className="sk-dash-history-meta">
               {h.archetypeEmoji} {h.archetype} ·{" "}
-              {new Date(h.createdAt).toLocaleDateString()}
+              {new Date(h.createdAt).toLocaleDateString(c.dateLocale)}
             </div>
           </a>
         ))}

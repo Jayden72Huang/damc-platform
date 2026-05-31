@@ -422,8 +422,8 @@ export function MarketplaceContent(): React.ReactNode {
 
                   {skill.tags && skill.tags.length > 0 ? (
                     <div className="sk-mp-tags">
-                      {skill.tags.map((t) => (
-                        <span key={t} className="sk-mp-tag">
+                      {skill.tags.map((t, index) => (
+                        <span key={`${skill.id}-tag-${index}`} className="sk-mp-tag">
                           {t}
                         </span>
                       ))}

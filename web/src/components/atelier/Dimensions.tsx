@@ -128,8 +128,8 @@ export function Dimensions(): React.ReactNode {
               <p className="atelier-dim-copy">{dimension.copy[locale]}</p>
 
               <ul className="atelier-dim-subs">
-                {dimension.subs[locale].map((sub) => (
-                  <li key={sub}>{sub}</li>
+                {dimension.subs[locale].map((sub, index) => (
+                  <li key={index}>{sub}</li>
                 ))}
               </ul>
 

@@ -1,7 +1,21 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
-import { DEFAULT_LOCALE, Locale, LOCALE_COOKIE } from "@/lib/i18n/config";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import {
+  DEFAULT_LOCALE,
+  type Locale,
+  LOCALE_COOKIE,
+  LOCALE_COOKIE_MAX_AGE,
+  localeToHtmlLang,
+  normalizeLocale,
+} from "@/lib/i18n/config";
 
 type I18nContextValue = {
   locale: Locale;
@@ -12,14 +26,20 @@ type I18nContextValue = {
 const I18nContext = createContext<I18nContextValue | null>(null);
 
 function persistLocale(locale: Locale) {
-  if (typeof document === "undefined") return;
-  document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; samesite=lax`;
-  try {
-    window.localStorage.setItem(LOCALE_COOKIE, locale);
-  } catch {
-    // 隐私模式下忽略存储异常
+  const normalizedLocale = normalizeLocale(locale);
+
+  if (typeof document !== "undefined") {
+    document.cookie = `${LOCALE_COOKIE}=${normalizedLocale}; Path=/; Max-Age=${LOCALE_COOKIE_MAX_AGE}; SameSite=Lax`;
+    document.documentElement.lang = localeToHtmlLang(normalizedLocale);
   }
-  document.documentElement.lang = locale === "en" ? "en" : "zh-CN";
+
+  if (typeof window !== "undefined") {
+    try {
+      window.localStorage.setItem(LOCALE_COOKIE, normalizedLocale);
+    } catch {
+      // 隐私模式下忽略存储异常
+    }
+  }
 }
 
 export function I18nProvider({
@@ -29,17 +49,21 @@ export function I18nProvider({
   initialLocale?: Locale;
   children: React.ReactNode;
 }) {
-  const [locale, setLocaleState] = useState<Locale>(initialLocale);
+  const [locale, setLocaleState] = useState<Locale>(() =>
+    normalizeLocale(initialLocale),
+  );
+
+  useEffect(() => {
+    persistLocale(locale);
+  }, [locale]);
 
   const setLocale = useCallback((next: Locale) => {
-    setLocaleState(next);
-    persistLocale(next);
+    setLocaleState(normalizeLocale(next));
   }, []);
 
   const toggleLocale = useCallback(() => {
     setLocaleState((prev) => {
       const next: Locale = prev === "zh" ? "en" : "zh";
-      persistLocale(next);
       return next;
     });
   }, []);
@@ -64,7 +88,9 @@ export function useLocale(): I18nContextValue {
  * 在双语对象中按当前语言取值的小工具。
  * 用法：const t = useT({ zh: {...}, en: {...} })
  */
-export function useT<T>(content: { zh: T; en: T }): T {
+export function useT<T>(
+  content: Partial<Record<Locale, T>> & Record<typeof DEFAULT_LOCALE, T>,
+): T {
   const { locale } = useLocale();
-  return content[locale];
+  return content[locale] ?? content[DEFAULT_LOCALE];
 }
