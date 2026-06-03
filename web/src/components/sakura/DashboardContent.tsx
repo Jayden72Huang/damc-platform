@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { signIn } from "next-auth/react";
 import { useLocale } from "@/lib/i18n/I18nProvider";
 
 const COPY = {
@@ -15,6 +16,11 @@ const COPY = {
     participantsSuffix: "位参与者中",
     scanHistory: "SCAN HISTORY",
     dateLocale: "zh-CN",
+    viewReport: "查看完整报告",
+    runScan: "运行新评估",
+    leaderboard: "查看排行榜",
+    shareReport: "分享报告",
+    startScan: "去评估",
   },
   en: {
     loading: "Loading...",
@@ -27,6 +33,11 @@ const COPY = {
     participantsSuffix: "participants",
     scanHistory: "SCAN HISTORY",
     dateLocale: "en-US",
+    viewReport: "View Full Report",
+    runScan: "Run New Scan",
+    leaderboard: "Leaderboard",
+    shareReport: "Share Report",
+    startScan: "Start Assessment",
   },
 };
 
@@ -125,9 +136,9 @@ export function DashboardContent(): React.ReactNode {
           {c.unauthTitle}
         </p>
         <p style={{ opacity: 0.5, marginTop: 8 }}>{c.unauthDesc}</p>
-        <a href="/api/auth/signin" className="sk-btn" style={{ marginTop: 24 }}>
+        <button onClick={() => signIn("github")} className="sk-btn" style={{ marginTop: 24 }}>
           {c.githubLogin}
-        </a>
+        </button>
       </div>
     );
   }
@@ -142,6 +153,14 @@ export function DashboardContent(): React.ReactNode {
         <p style={{ opacity: 0.5, marginTop: 8 }}>
           {c.noRecordDescPre} <code>/damc</code> {c.noRecordDescPost}
         </p>
+        <div style={{ display: "flex", gap: 12, marginTop: 24, flexWrap: "wrap", justifyContent: "center" }}>
+          <a href="/leaderboard" className="sk-btn">
+            {c.leaderboard}
+          </a>
+          <a href="/#how-to-use" className="sk-btn" style={{ background: "transparent", border: "2px solid var(--sk-brown)", color: "var(--sk-brown)" }}>
+            {c.startScan}
+          </a>
+        </div>
       </div>
     );
   }
@@ -185,6 +204,15 @@ export function DashboardContent(): React.ReactNode {
           <ScoreBar label="A" value={s.A ?? 0} color="var(--color-a)" />
           <ScoreBar label="M" value={s.M ?? 0} color="var(--color-m)" />
           <ScoreBar label="C" value={s.C ?? 0} color="var(--color-c)" />
+        </div>
+
+        <div style={{ display: "flex", gap: 12, marginTop: 24, flexWrap: "wrap" }}>
+          <a href={`/r/${latest.slug}`} className="sk-btn">
+            {c.viewReport}
+          </a>
+          <a href="/leaderboard" className="sk-btn" style={{ background: "transparent", border: "2px solid var(--sk-brown)", color: "var(--sk-brown)" }}>
+            {c.leaderboard}
+          </a>
         </div>
       </div>
 

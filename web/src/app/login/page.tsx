@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import {
   Big_Shoulders,
   Albert_Sans,
@@ -6,6 +7,7 @@ import {
 import "../sakura.css";
 import { Header } from "@/components/sakura/Header";
 import { LoginForm } from "@/components/sakura/LoginForm";
+import { auth } from "@/lib/auth";
 
 const display = Big_Shoulders({
   subsets: ["latin"],
@@ -29,7 +31,10 @@ export const metadata = {
   title: "Login | DAMC.ai",
 };
 
-export default function LoginPage(): React.ReactNode {
+export default async function LoginPage() {
+  const session = await auth();
+  if (session) redirect("/dashboard");
+
   return (
     <main
       className={`sakura-root ${display.variable} ${body.variable} ${mono.variable}`}
