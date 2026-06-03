@@ -24,6 +24,7 @@ interface SkillListing {
     marketFit: string;
     uniqueness: string;
   } | null;
+  visibility: string | null;
   sellerName: string | null;
   sellerImage: string | null;
 }
@@ -39,6 +40,8 @@ const COPY = {
     how3Desc: "在 Agent 中运行下方命令，自动扫描并上架你的 Skills。",
     cmdNote: "已安装 DAMC 的用户直接运行 · 需要 GitHub 登录",
     listedSuffix: "skills listed · Free & Premium",
+    premiumLock: "付费即将上线",
+    premiumHint: "该 Skill 为付费内容，购买功能即将推出",
     loading: "Loading...",
   },
   en: {
@@ -51,6 +54,8 @@ const COPY = {
     how3Desc: "Run the command below in your Agent to auto-scan and list your Skills.",
     cmdNote: "DAMC users can run this directly · GitHub login required",
     listedSuffix: "skills listed · Free & Premium",
+    premiumLock: "Paid — Coming Soon",
+    premiumHint: "This is a premium Skill. Purchase feature coming soon!",
     loading: "Loading...",
   },
 };
@@ -93,6 +98,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "High demand for SEO automation",
       uniqueness: "Combines 5 tools into one skill",
     },
+    visibility: "premium",
     sellerName: "@Jayden72Huang",
     sellerImage: null,
   },
@@ -122,6 +128,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "Every dev team needs deployment checks",
       uniqueness: "All-in-one pre-deploy audit",
     },
+    visibility: "public",
     sellerName: "@alexwang-dev",
     sellerImage: null,
   },
@@ -151,6 +158,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "Growing demand for brand consistency",
       uniqueness: "Voice extraction + enforcement",
     },
+    visibility: "premium",
     sellerName: "@sarahli-writes",
     sellerImage: null,
   },
@@ -180,6 +188,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "Data engineering is expensive",
       uniqueness: "NL-to-pipeline is novel",
     },
+    visibility: "premium",
     sellerName: "@kevinzhou-data",
     sellerImage: null,
   },
@@ -209,6 +218,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "Universal need for UI components",
       uniqueness: "Multi-framework + accessibility focus",
     },
+    visibility: "public",
     sellerName: "@lisameng-ui",
     sellerImage: null,
   },
@@ -238,6 +248,7 @@ const DEMO_SKILLS: SkillListing[] = [
       marketFit: "Meeting fatigue is universal",
       uniqueness: "End-to-end: transcript to tracked tasks",
     },
+    visibility: "public",
     sellerName: "@mikerui",
     sellerImage: null,
   },
@@ -385,10 +396,12 @@ export function MarketplaceContent(): React.ReactNode {
                       )}
                     </div>
                   </div>
-                  {skill.price === 0 ? (
+                  {skill.visibility === "premium" ? (
+                    <span className="sk-mp-badge sk-mp-badge-paid">Premium</span>
+                  ) : skill.price === 0 ? (
                     <span className="sk-mp-badge sk-mp-badge-free">Open Source</span>
                   ) : (
-                    <span className="sk-mp-badge sk-mp-badge-paid">Premium</span>
+                    <span className="sk-mp-badge sk-mp-badge-paid">Paid</span>
                   )}
 
                   <p className="sk-mp-card-desc">{skill.description}</p>
@@ -430,12 +443,21 @@ export function MarketplaceContent(): React.ReactNode {
                     </div>
                   ) : null}
 
-                  <div className="sk-mp-card-actions">
-                    <code className="sk-mp-install-cmd">
-                      {skill.installCommand}
-                    </code>
-                    <CopyInstall command={skill.installCommand} />
-                  </div>
+                  {skill.visibility === "premium" ? (
+                    <div className="sk-mp-card-actions sk-mp-premium-lock">
+                      <span className="sk-mp-premium-text">
+                        🔒 {c.premiumLock}
+                      </span>
+                      <span className="sk-mp-premium-hint">{c.premiumHint}</span>
+                    </div>
+                  ) : (
+                    <div className="sk-mp-card-actions">
+                      <code className="sk-mp-install-cmd">
+                        {skill.installCommand}
+                      </code>
+                      <CopyInstall command={skill.installCommand} />
+                    </div>
+                  )}
                 </article>
               ))}
             </div>

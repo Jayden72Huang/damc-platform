@@ -7,6 +7,7 @@ import "../sakura.css";
 import { Header } from "@/components/sakura/Header";
 import { Footer } from "@/components/sakura/Footer";
 import { DashboardContent } from "@/components/sakura/DashboardContent";
+import { MySkills } from "@/components/sakura/MySkills";
 
 const display = Big_Shoulders({
   subsets: ["latin"],
@@ -44,6 +45,11 @@ export default function DashboardPage(): React.ReactNode {
             Dashboard
           </div>
           <DashboardContent />
+        </div>
+      </section>
+      <section className="sk-section" style={{ paddingTop: 0 }}>
+        <div className="sk-container">
+          <MySkills />
         </div>
       </section>
       <Footer />

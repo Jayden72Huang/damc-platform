@@ -93,7 +93,8 @@ export const skills = pgTable("skills", {
     marketFit: string;
     uniqueness: string;
   }>(),
-  status: text("status").notNull().default("listed"),
+  visibility: text("visibility").notNull().default("public"),
+  status: text("status").notNull().default("draft"),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
 });

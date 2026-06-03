@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { skills, users } from "@/lib/schema";
 import { auth } from "@/lib/auth";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 
 export async function GET(req: NextRequest) {
   try {
@@ -26,6 +26,7 @@ export async function GET(req: NextRequest) {
         features: skills.features,
         stats: skills.stats,
         valuation: skills.valuation,
+        visibility: skills.visibility,
         status: skills.status,
         createdAt: skills.createdAt,
         sellerName: users.name,
@@ -70,6 +71,7 @@ export async function POST(req: NextRequest) {
       tags,
       features,
       valuation,
+      visibility,
     } = body;
 
     if (!name || !displayName || !description || !category || !installCommand) {
@@ -99,7 +101,8 @@ export async function POST(req: NextRequest) {
         features: features ?? [],
         stats: { downloads: 0, rating: 0, reviews: 0 },
         valuation: valuation ?? null,
-        status: "listed",
+        visibility: visibility === "premium" ? "premium" : "public",
+        status: "draft",
       })
       .returning({ id: skills.id, slug: skills.slug });
 

@@ -350,6 +350,32 @@
   color: var(--ink);
 }
 
+/* ===== PREMIUM LOCK ===== */
+.sk-mp-premium-lock {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 12px;
+  background: var(--ink-faint);
+  border: 1px dashed var(--ink-border);
+}
+
+.sk-mp-premium-text {
+  font-family: var(--sk-font-display), 'Impact', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--ink);
+}
+
+.sk-mp-premium-hint {
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 10px;
+  opacity: 0.45;
+  line-height: 1.4;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .sk-mp-title { font-size: 36px; }
