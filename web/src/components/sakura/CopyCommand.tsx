@@ -32,16 +32,17 @@ export function CopyCommand({
   }
 
   return (
-    <div className={`sk-code-row ${className}`}>
+    <div
+      className={`sk-code-row ${copied ? "sk-code-copied" : ""} ${className}`}
+      onClick={handleCopy}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleCopy(); }}
+    >
       <code>{command}</code>
-      <button
-        type="button"
-        className="sk-code-copy"
-        aria-label={copied ? "已复制" : "复制命令"}
-        onClick={handleCopy}
-      >
-        {copied ? "✓" : "⎘"}
-      </button>
+      <span className="sk-code-copy" aria-hidden>
+        {copied ? "✓ Copied" : "⎘"}
+      </span>
     </div>
   );
 }

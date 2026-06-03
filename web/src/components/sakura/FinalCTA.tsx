@@ -39,7 +39,7 @@ export function FinalCTA(): React.ReactNode {
       <div className="sk-container" style={{ textAlign: "center" }}>
         <p className="sk-cta-title">{c.title}</p>
 
-        <div style={{ maxWidth: 480, margin: "0 auto 16px" }}>
+        <div style={{ maxWidth: 640, margin: "0 auto 16px" }}>
           <CopyCommand command="npx skills add Jayden72Huang/damc-skill -g -y --agent claude-code" />
         </div>
 

@@ -1251,9 +1251,18 @@ body:has(.sakura-root) {
   align-items: center;
   gap: 12px;
   border: var(--border-w) solid var(--ink);
-  padding: 12px 16px;
+  padding: 14px 18px;
   background: rgba(58,37,22,0.04);
-  overflow-x: auto;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.sk-code-row:hover {
+  background: rgba(58,37,22,0.08);
+}
+
+.sk-code-row.sk-code-copied {
+  background: rgba(58,37,22,0.12);
 }
 
 .sk-code-row code {
@@ -1261,23 +1270,21 @@ body:has(.sakura-root) {
   font-family: var(--sk-font-mono), monospace;
   font-size: 13px;
   color: var(--ink);
-  white-space: nowrap;
+  word-break: break-all;
 }
 
 .sk-code-copy {
   flex-shrink: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
+  font-family: var(--sk-font-mono), monospace;
+  font-size: 12px;
   color: var(--ink);
-  opacity: 0.5;
+  opacity: 0.4;
   transition: opacity 0.15s;
-  font-size: 16px;
+  user-select: none;
 }
 
-.sk-code-copy:hover {
-  opacity: 1;
+.sk-code-row:hover .sk-code-copy {
+  opacity: 0.7;
 }
 
 /* ===== SOCIAL PROOF ===== */
