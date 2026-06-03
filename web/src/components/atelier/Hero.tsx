@@ -47,7 +47,7 @@ export function Hero(): React.ReactNode {
             </h1>
             <p className="atelier-hero-subtitle">{c.subtitle}</p>
             <div className="atelier-hero-actions">
-              <a className="atelier-button atelier-button-primary" href="#pricing">
+              <a className="atelier-button atelier-button-primary" href="#get-started">
                 {c.primary}
               </a>
               <a className="atelier-text-link" href="#archetypes">
