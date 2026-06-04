@@ -17,6 +17,8 @@ const COPY = {
     bindTitle: "绑定你的结果",
     bindDesc: "登录 GitHub 账号后，你的评分将出现在排行榜，还能加入团队排名。",
     bindCta: "用 GitHub 登录绑定 →",
+    binding: "正在绑定到你的账号...",
+    bound: "已绑定！你的评分已加入排行榜",
     copied: "✓ 已复制",
     copyShare: "复制分享文本",
     testYours: "测测你的 DAMC",
@@ -37,6 +39,8 @@ const COPY = {
     bindDesc:
       "Sign in with GitHub and your scores will appear on the leaderboard — plus you can join team rankings.",
     bindCta: "Sign in with GitHub to bind →",
+    binding: "Binding to your account...",
+    bound: "Bound! Your scores are now on the leaderboard",
     copied: "✓ Copied",
     copyShare: "Copy share text",
     testYours: "Test your own DAMC",
@@ -132,6 +136,7 @@ export function ReportCard({ slug }: { slug: string }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [bindState, setBindState] = useState<"idle" | "binding" | "bound">("idle");
 
   useEffect(() => {
     fetch(`/api/reports/${slug}`)
@@ -143,6 +148,31 @@ export function ReportCard({ slug }: { slug: string }) {
       .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, [slug]);
+
+  useEffect(() => {
+    if (!data || data.userId || bindState !== "idle") return;
+    fetch("/api/me")
+      .then((res) => {
+        if (res.status === 401) return null;
+        return res.json();
+      })
+      .then((me) => {
+        if (!me?.user?.id) return;
+        setBindState("binding");
+        return fetch("/api/reports/bind", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slug: data.slug }),
+        });
+      })
+      .then((res) => {
+        if (res?.ok) {
+          setBindState("bound");
+          setData((prev) => prev ? { ...prev, userId: "bound" } : prev);
+        }
+      })
+      .catch(() => {});
+  }, [data, bindState]);
 
   if (loading) {
     return (
@@ -360,8 +390,20 @@ export function ReportCard({ slug }: { slug: string }) {
         </div>
       )}
 
-      {/* Login prompt for anonymous reports */}
-      {!data.userId && (
+      {/* Bind prompt */}
+      {bindState === "bound" && (
+        <div className="sk-rpt-bind-prompt" style={{ textAlign: "center" }}>
+          <p style={{ fontSize: 14, color: "var(--ink)" }}>
+            {c.bound}
+          </p>
+        </div>
+      )}
+      {bindState === "binding" && (
+        <div className="sk-rpt-bind-prompt" style={{ textAlign: "center", opacity: 0.5 }}>
+          <p style={{ fontSize: 13 }}>{c.binding}</p>
+        </div>
+      )}
+      {!data.userId && bindState === "idle" && (
         <div className="sk-rpt-bind-prompt">
           <p className="sk-display" style={{ fontSize: 14, letterSpacing: 2, marginBottom: 8 }}>
             {c.bindTitle}
