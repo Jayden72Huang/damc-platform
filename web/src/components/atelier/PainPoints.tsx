@@ -1,43 +1,36 @@
-"use client";
+import Image from "next/image";
 
-import { useLocale } from "@/lib/i18n/I18nProvider";
-
-const COPY = {
-  zh: {
-    quote: "你不是怕被 AI 取代，而是不知道自己在哪。",
-    sub: "95% 的人对自己 Agent 时代的位置一无所知。",
-    painPoints: [
-      "我是焦虑，还是太自信？",
-      "我的能力护城河在哪？",
-      "下一步到底该学什么？",
-    ],
-  },
-  en: {
-    quote: "It's not that you fear being replaced by AI — you just don't know where you stand.",
-    sub: "95% of people have no idea where they sit in the Agent era.",
-    painPoints: [
-      "Am I anxious, or overconfident?",
-      "Where is my capability moat?",
-      "What should I actually learn next?",
-    ],
-  },
-};
+const painPoints = [
+  "我是焦虑，还是太自信？",
+  "我的能力护城河在哪？",
+  "下一步到底该学什么？",
+] as const;
 
 export function PainPoints(): React.ReactNode {
-  const { locale } = useLocale();
-  const c = COPY[locale];
-
   return (
     <section className="atelier-section atelier-pain">
-      <div className="atelier-container">
+      <div className="atelier-pain-bg" aria-hidden="true">
+        <Image
+          src="/atelier/decor/pain-bg.png"
+          alt=""
+          fill
+          sizes="100vw"
+          priority={false}
+        />
+      </div>
+      <div className="atelier-container atelier-pain-inner">
+        <span className="atelier-pain-rule" aria-hidden="true" />
         <blockquote className="atelier-display atelier-pain-quote">
-          {c.quote}
+          你不是怕被 AI 取代，而是不知道自己在哪。
         </blockquote>
-        <p className="atelier-pain-sub">{c.sub}</p>
+        <p className="atelier-pain-sub">
+          95% 的人对自己 Agent 时代的位置一无所知。
+        </p>
+        <span className="atelier-pain-rule" aria-hidden="true" />
 
         <div className="atelier-pain-grid">
-          {c.painPoints.map((item, index) => (
-            <p className="atelier-pain-item" key={index}>
+          {painPoints.map((item) => (
+            <p className="atelier-pain-item" key={item}>
               {item}
             </p>
           ))}

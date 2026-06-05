@@ -1,98 +1,72 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { skills } from "@/lib/schema";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { db, schema } from "@/lib/db";
 import { and, eq } from "drizzle-orm";
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+export const runtime = "nodejs";
 
-    const { id } = await params;
-    const body = await req.json();
+type Params = { params: Promise<{ id: string }> };
 
-    const allowedFields: Record<string, unknown> = {};
-    const editable = [
-      "displayName",
-      "description",
-      "category",
-      "price",
-      "installCommand",
-      "repoUrl",
-      "demoUrl",
-      "iconEmoji",
-      "tags",
-      "features",
-      "visibility",
-      "status",
-    ] as const;
-
-    for (const key of editable) {
-      if (key in body) allowedFields[key] = body[key];
-    }
-
-    if (allowedFields.status && !["draft", "listed"].includes(allowedFields.status as string)) {
-      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
-    }
-    if (allowedFields.visibility && !["public", "premium"].includes(allowedFields.visibility as string)) {
-      return NextResponse.json({ error: "Invalid visibility" }, { status: 400 });
-    }
-
-    allowedFields.updatedAt = new Date();
-
-    const [updated] = await db
-      .update(skills)
-      .set(allowedFields)
-      .where(and(eq(skills.id, id), eq(skills.userId, session.user.id)))
-      .returning({ id: skills.id, status: skills.status, visibility: skills.visibility });
-
-    if (!updated) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
-    }
-
-    return NextResponse.json(updated);
-  } catch (error) {
-    console.error("Skill update error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+// PATCH /api/skills/[id] — publish or update a skill draft
+export async function PATCH(request: Request, { params }: Params) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const { id } = await params;
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  const { status, visibility } = (body ?? {}) as Record<string, string>;
+
+  const validStatuses = ["draft", "published", "listed"];
+  if (status && !validStatuses.includes(status)) {
+    return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+  }
+
+  const update: Record<string, string> = {};
+  if (status) update.status = status;
+  if (visibility === "public" || visibility === "premium") update.visibility = visibility;
+
+  if (Object.keys(update).length === 0) {
+    return NextResponse.json({ error: "Nothing to update" }, { status: 400 });
+  }
+
+  const rows = await db
+    .update(schema.skills)
+    .set(update)
+    .where(and(eq(schema.skills.id, id), eq(schema.skills.userId, session.user.id)))
+    .returning({ id: schema.skills.id, status: schema.skills.status });
+
+  if (rows.length === 0) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  return NextResponse.json({ ok: true, skill: rows[0] });
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const { id } = await params;
-
-    const [deleted] = await db
-      .delete(skills)
-      .where(and(eq(skills.id, id), eq(skills.userId, session.user.id)))
-      .returning({ id: skills.id });
-
-    if (!deleted) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({ ok: true });
-  } catch (error) {
-    console.error("Skill delete error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+// DELETE /api/skills/[id] — delete a skill
+export async function DELETE(_req: Request, { params }: Params) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const { id } = await params;
+
+  const rows = await db
+    .delete(schema.skills)
+    .where(and(eq(schema.skills.id, id), eq(schema.skills.userId, session.user.id)))
+    .returning({ id: schema.skills.id });
+
+  if (rows.length === 0) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  return NextResponse.json({ ok: true });
 }

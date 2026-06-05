@@ -1,78 +1,74 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useLocale } from "@/lib/i18n/I18nProvider";
 
 const scores = [
-  { letter: "D", title: { zh: "蒸馏价值", en: "Distillation" }, value: 78 },
-  { letter: "A", title: { zh: "抗蒸馏", en: "Anti-Distill" }, value: 62 },
-  { letter: "M", title: { zh: "AI 驾驭", en: "AI Mastery" }, value: 85 },
-  { letter: "C", title: { zh: "职业适配", en: "Career" }, value: 65 },
+  { letter: "D", title: "蒸馏价值", value: 78 },
+  { letter: "A", title: "抗蒸馏", value: 62 },
+  { letter: "M", title: "AI 驾驭", value: 85 },
+  { letter: "C", title: "职业适配", value: 65 },
 ] as const;
 
 const insights = [
-  {
-    kind: { zh: "护城河", en: "Moat" },
-    body: {
-      zh: "跨域综合力 + 信任资产 — 你的判断难以被蒸馏。",
-      en: "Cross-domain synthesis + trust capital — your judgment resists distillation.",
-    },
-  },
-  {
-    kind: { zh: "可蒸馏", en: "Distillable" },
-    body: {
-      zh: "SEO 工作流 / 内容审稿规则 — 立刻沉淀为自建 Skill。",
-      en: "SEO workflow / content review rules — bottle them into your own Skills now.",
-    },
-  },
-  {
-    kind: { zh: "Top 风险", en: "Top Risk" },
-    body: {
-      zh: "情商权重略低，建议在协作型项目中刻意练习。",
-      en: "EQ scores slightly low — practice deliberately on collaborative projects.",
-    },
-  },
+  { kind: "护城河", body: "跨域综合力 + 信任资产 — 你的判断难以被蒸馏。" },
+  { kind: "可蒸馏", body: "SEO 工作流 / 内容审稿规则 — 立刻沉淀为自建 Skill。" },
+  { kind: "Top 风险", body: "情商权重略低，建议在协作型项目中刻意练习。" },
 ] as const;
 
-const COPY = {
-  zh: {
-    eyebrow: "示例报告 · SAMPLE",
-    title: "报告长这样 — 一份你愿意分享的画像。",
-    sub: "以下是「AI 架构师」画像的部分截图。Free 版只显示 4 维总分与画像；Insight 版解锁全部 22 子维度、可蒸馏清单与 90 天行动路径。",
-    coverAlt: "DAMC 报告示例封面",
-    archetype: "🏆 AI 架构师",
-    grade: "等级 A · 高价值 AI 协作者",
-    unlock: "解锁完整报告",
-    seeHow: "看一下是怎么生成的",
-  },
-  en: {
-    eyebrow: "SAMPLE REPORT",
-    title: "Here's what a report looks like — a profile you'd want to share.",
-    sub: 'Below is part of the "AI Architect" profile. The Free tier shows only the 4 dimension scores and archetype; the Insight tier unlocks all 22 sub-dimensions, the distillation checklist, and a 90-day action path.',
-    coverAlt: "DAMC sample report cover",
-    archetype: "🏆 AI Architect",
-    grade: "Grade A · High-Value AI Collaborator",
-    unlock: "Unlock the full report",
-    seeHow: "See how it's generated",
-  },
-};
-
 export function SampleReport(): React.ReactNode {
-  const { locale } = useLocale();
-  const c = COPY[locale];
+  const [revealed, setRevealed] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      setRevealed(true);
+      return;
+    }
+
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setRevealed(true);
+            observer.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="atelier-section atelier-sample" id="sample">
+    <section
+      className="atelier-section atelier-sample"
+      id="sample"
+      ref={sectionRef}
+    >
       <div className="atelier-container">
-        <p className="atelier-section-eyebrow">{c.eyebrow}</p>
-        <h2 className="atelier-display atelier-section-title">{c.title}</h2>
-        <p className="atelier-section-sub">{c.sub}</p>
+        <p className="atelier-section-eyebrow">III · 报告样张</p>
+        <h2 className="atelier-display atelier-section-title">
+          报告长这样 — 一份你愿意分享的画像。
+        </h2>
+        <p className="atelier-section-sub">
+          以下是「AI 架构师」画像的部分截图。Free 版只显示 4 维总分与画像；Insight 版解锁全部 22 子维度、可蒸馏清单与 90 天行动路径。
+        </p>
 
         <div className="atelier-sample-grid">
           <div className="atelier-sample-cover">
             <Image
               src="/atelier/hero-agent.png"
-              alt={c.coverAlt}
+              alt="DAMC 报告示例封面"
               fill
               sizes="(max-width: 900px) 100vw, 42vw"
             />
@@ -80,19 +76,29 @@ export function SampleReport(): React.ReactNode {
 
           <div className="atelier-sample-body">
             <div className="atelier-sample-meta">
-              <span className="atelier-sample-archetype">{c.archetype}</span>
-              <span className="atelier-sample-grade">{c.grade}</span>
+              <span className="atelier-sample-archetype">🏆 AI 架构师</span>
+              <span className="atelier-sample-grade">等级 A · 高价值 AI 协作者</span>
             </div>
 
-            <ul className="atelier-sample-bars">
-              {scores.map((score) => (
+            <ul className="atelier-sample-bars" aria-label="DAMC 4 维评分示例">
+              {scores.map((score, index) => (
                 <li className="atelier-sample-bar" key={score.letter}>
                   <span className="atelier-sample-bar-letter">{score.letter}</span>
-                  <span className="atelier-sample-bar-title">{score.title[locale]}</span>
-                  <span className="atelier-sample-bar-track">
+                  <span className="atelier-sample-bar-title">{score.title}</span>
+                  <span
+                    className="atelier-sample-bar-track"
+                    role="progressbar"
+                    aria-valuenow={score.value}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label={`${score.title} 得分 ${score.value}`}
+                  >
                     <span
                       className="atelier-sample-bar-fill"
-                      style={{ width: `${score.value}%` }}
+                      style={{
+                        width: revealed ? `${score.value}%` : "0%",
+                        transitionDelay: revealed ? `${index * 80}ms` : "0ms",
+                      }}
                     />
                   </span>
                   <span className="atelier-numbers atelier-sample-bar-value">
@@ -104,19 +110,19 @@ export function SampleReport(): React.ReactNode {
 
             <ul className="atelier-sample-insights">
               {insights.map((insight) => (
-                <li key={insight.kind.en}>
-                  <span className="atelier-sample-insight-kind">{insight.kind[locale]}</span>
-                  <span className="atelier-sample-insight-body">{insight.body[locale]}</span>
+                <li key={insight.kind}>
+                  <span className="atelier-sample-insight-kind">{insight.kind}</span>
+                  <span className="atelier-sample-insight-body">{insight.body}</span>
                 </li>
               ))}
             </ul>
 
             <div className="atelier-sample-actions">
               <a className="atelier-button atelier-button-primary" href="#pricing">
-                {c.unlock}
+                解锁完整报告
               </a>
               <a className="atelier-text-link" href="#process">
-                {c.seeHow}
+                看一下是怎么生成的
               </a>
             </div>
           </div>

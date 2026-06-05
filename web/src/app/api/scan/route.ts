@@ -1,67 +1,115 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { reports } from "@/lib/schema";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { generateSlug } from "@/lib/scoring";
+import { db, schema } from "@/lib/db";
+import { eq } from "drizzle-orm";
+import { generateSlug } from "@/lib/slug";
 
-export async function POST(req: NextRequest) {
+export const runtime = "nodejs";
+
+type ScanPayload = {
+  scores: unknown;
+  archetype: string;
+  archetype_emoji?: string;
+  archetype_code?: string;
+  overall?: number;
+  role?: string;
+  mbti?: string;
+  insights?: unknown;
+  scan_summary?: unknown;
+  env?: unknown;
+};
+
+function isValidPayload(body: unknown): body is ScanPayload {
+  if (!body || typeof body !== "object") return false;
+  const b = body as Record<string, unknown>;
+  return (
+    typeof b.scores === "object" &&
+    b.scores !== null &&
+    typeof b.archetype === "string" &&
+    b.archetype.length > 0
+  );
+}
+
+export async function POST(request: Request) {
+  let body: unknown;
   try {
-    const body = await req.json();
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
 
-    const { scores, archetype, role, mbti, env, scan_summary, insights } = body;
+  if (!isValidPayload(body)) {
+    return NextResponse.json(
+      { error: "Missing required fields: scores, archetype" },
+      { status: 400 }
+    );
+  }
 
-    if (!scores || !archetype) {
-      return NextResponse.json(
-        { error: "scores and archetype are required" },
-        { status: 400 }
-      );
-    }
+  const session = await auth();
+  const userId = session?.user?.id ?? null;
 
-    const session = await auth();
-    const userId = session?.user?.id ?? null;
+  let slug = generateSlug();
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const existing = await db
+      .select({ slug: schema.reports.slug })
+      .from(schema.reports)
+      .where(eq(schema.reports.slug, slug))
+      .limit(1);
+    if (existing.length === 0) break;
+    slug = generateSlug();
+  }
 
-    const d = scores.D ?? scores.d ?? 0;
-    const a = scores.A ?? scores.a ?? 0;
-    const m = scores.M ?? scores.m ?? 0;
-    const c = scores.C ?? scores.c ?? 0;
-    const overall =
-      body.overall ?? Math.round(d * 0.25 + a * 0.3 + m * 0.25 + c * 0.2);
-
-    const slug = generateSlug();
-
-    const archetypeEmoji =
-      body.archetype_emoji ?? body.archetypeEmoji ?? null;
-    const archetypeCode =
-      body.archetype_code ?? body.archetypeCode ?? null;
-
+  try {
     const [inserted] = await db
-      .insert(reports)
+      .insert(schema.reports)
       .values({
         slug,
         userId,
-        scores,
-        archetype,
-        archetypeEmoji,
-        archetypeCode,
-        overall,
-        role: role ?? null,
-        mbti: mbti ?? null,
-        insights: insights ?? null,
-        scanSummary: scan_summary ?? body.scanSummary ?? null,
-        env: env ?? null,
+        scores: body.scores as object,
+        archetype: body.archetype,
+        archetypeEmoji: body.archetype_emoji ?? null,
+        archetypeCode: body.archetype_code ?? null,
+        overall: body.overall ?? null,
+        role: body.role ?? null,
+        mbti: body.mbti ?? null,
+        insights: (body.insights as object) ?? null,
+        scanSummary: (body.scan_summary as object) ?? null,
+        env: (body.env as object) ?? null,
       })
-      .returning({ id: reports.id, slug: reports.slug });
+      .returning({ slug: schema.reports.slug });
+
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      request.headers.get("origin") ||
+      "https://damc-platform.vercel.app";
 
     return NextResponse.json({
       token: inserted.slug,
-      url: `/r/${inserted.slug}`,
-      id: inserted.id,
+      url: `${siteUrl}/r/${inserted.slug}`,
     });
   } catch (error) {
-    console.error("Scan API error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: error instanceof Error ? error.message : "Failed to save report" },
       { status: 500 }
     );
   }
+}
+
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    method: "POST",
+    schema: {
+      scores: { D: { total: 0 }, A: { total: 0 }, M: { total: 0 }, C: { total: 0 } },
+      archetype: "string (required)",
+      archetype_emoji: "string (optional)",
+      archetype_code: "string (optional)",
+      overall: "number (optional)",
+      role: "string (optional)",
+      mbti: "string (optional)",
+      insights: "object (optional)",
+      scan_summary: "object (optional)",
+      env: "object (optional)",
+    },
+  });
 }

@@ -45,8 +45,18 @@ export function Privacy(): React.ReactNode {
   const c = COPY[locale];
 
   return (
-    <section className="atelier-section" id="privacy">
-      <div className="atelier-container">
+    <section className="atelier-section atelier-privacy" id="privacy">
+      <div className="atelier-privacy-bg" aria-hidden="true">
+        <Image
+          src="/atelier/decor/privacy-bg.png"
+          alt=""
+          fill
+          sizes="100vw"
+          priority={false}
+        />
+      </div>
+      <div className="atelier-container atelier-privacy-inner">
+        <p className="atelier-section-eyebrow">VII · 隐私承诺</p>
         <div className="atelier-privacy-emblem">
           <Image
             src="/atelier/vault.png"
