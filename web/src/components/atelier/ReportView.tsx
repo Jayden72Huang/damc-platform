@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Report } from "@/lib/db/schema";
+import type { Report } from "@/lib/schema";
 
 type ScoreEntry = {
   total: number;
@@ -79,6 +79,16 @@ const SUB_LABELS: Record<string, string> = {
   automation: "自动化集成",
   memory: "持久记忆",
   advanced: "高级功能",
+};
+
+// M 维度各子项满分不同（环境20/Skill25/自动化20/记忆15/高级20），
+// 统一归一化到 0-100，与 D/A 子项同量纲展示。
+const M_SUB_MAX: Record<string, number> = {
+  environment: 20,
+  skills: 25,
+  automation: 20,
+  memory: 15,
+  advanced: 20,
 };
 
 function gradeFromScore(score: number): string {
@@ -198,7 +208,13 @@ export function ReportView({ report, isLoggedIn, isOwner, canSave }: Props): Rea
                         <p className="atelier-report-sub-dim-desc">{dim.desc}</p>
                         <ul className="atelier-report-sub-list">
                           {entries.map(([name, score]) => {
-                            const pct = Math.min(100, Math.max(0, score));
+                            const val =
+                              dim.key === "C"
+                                ? score
+                                : dim.key === "M"
+                                  ? Math.round((score / (M_SUB_MAX[name] ?? 100)) * 100)
+                                  : score;
+                            const pct = Math.min(100, Math.max(0, val));
                             return (
                               <li key={name}>
                                 <span>{SUB_LABELS[name] ?? name}</span>
@@ -208,7 +224,7 @@ export function ReportView({ report, isLoggedIn, isOwner, canSave }: Props): Rea
                                     style={{ width: `${pct}%` }}
                                   />
                                 </span>
-                                <span className="atelier-numbers">{score}</span>
+                                <span className="atelier-numbers">{val}</span>
                               </li>
                             );
                           })}

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { desc, eq } from "drizzle-orm";
 import { auth, signOut } from "@/lib/auth";
 import { db, schema } from "@/lib/db";
-import type { Skill } from "@/lib/db/schema";
+import type { Skill } from "@/lib/schema";
 import { publishSkill, deleteSkill } from "./actions";
 
 export const dynamic = "force-dynamic";

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db, schema } from "@/lib/db";
+import type { NewSkill } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { generateSlug } from "@/lib/slug";
 
@@ -123,7 +124,7 @@ export async function POST(request: Request) {
           tags: raw.tags ?? null,
           features: raw.features ?? null,
           visibility: raw.visibility === "premium" ? "premium" : "public",
-          valuation: raw.valuation ?? null,
+          valuation: (raw.valuation ?? null) as NewSkill["valuation"],
           status: "draft",
         })
         .returning({

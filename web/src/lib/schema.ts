@@ -70,6 +70,9 @@ export const skills = pgTable("skills", {
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  reportSlug: text("report_slug").references(() => reports.slug, {
+    onDelete: "set null",
+  }),
   name: text("name").notNull(),
   displayName: text("display_name").notNull(),
   description: text("description").notNull(),
@@ -152,3 +155,9 @@ export const teamMembersRelations = relations(teamMembers, ({ one }) => ({
   team: one(teams, { fields: [teamMembers.teamId], references: [teams.id] }),
   user: one(users, { fields: [teamMembers.userId], references: [users.id] }),
 }));
+
+// 表类型导出 — 供页面/组件直接使用
+export type Report = typeof reports.$inferSelect;
+export type NewReport = typeof reports.$inferInsert;
+export type Skill = typeof skills.$inferSelect;
+export type NewSkill = typeof skills.$inferInsert;
