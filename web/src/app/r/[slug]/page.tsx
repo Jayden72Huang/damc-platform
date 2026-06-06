@@ -1,59 +1,65 @@
-import { notFound } from "next/navigation";
-import { eq } from "drizzle-orm";
-import { db, schema } from "@/lib/db";
-import { auth } from "@/lib/auth";
-import type { Metadata } from "next";
-import { ReportView } from "@/components/atelier/ReportView";
+import {
+  Big_Shoulders,
+  Albert_Sans,
+  JetBrains_Mono,
+} from "next/font/google";
+import "../../sakura.css";
+import { Header } from "@/components/sakura/Header";
+import { Footer } from "@/components/sakura/Footer";
+import { ReportCard } from "@/components/sakura/ReportCard";
 
-type Props = {
+const display = Big_Shoulders({
+  subsets: ["latin"],
+  variable: "--sk-font-display",
+  display: "swap",
+});
+
+const body = Albert_Sans({
+  subsets: ["latin"],
+  variable: "--sk-font-body",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--sk-font-mono",
+  display: "swap",
+});
+
+export async function generateMetadata({
+  params,
+}: {
   params: Promise<{ slug: string }>;
-};
-
-export const dynamic = "force-dynamic";
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+}) {
   const { slug } = await params;
-  const rows = await db
-    .select()
-    .from(schema.reports)
-    .where(eq(schema.reports.slug, slug))
-    .limit(1);
-  const report = rows[0];
-
-  if (!report) {
-    return { title: "报告未找到 | DAMC.ai" };
-  }
-
   return {
-    title: `${report.archetype} · DAMC 体检报告 | DAMC.ai`,
-    description: `${report.archetype}画像的 Agent 体检报告 — 4 维评分与 22 子项细节。`,
+    title: `DAMC Report ${slug} | DAMC.ai`,
+    description: "查看 DAMC AI 时代个人价值评估报告",
+    openGraph: {
+      title: "DAMC — AI 时代个人价值评估",
+      description: "看看 TA 在 AI 时代的真实坐标",
+      url: `https://damc.space/r/${slug}`,
+    },
   };
 }
 
-export default async function ReportPage({ params }: Props) {
+export default async function ReportPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
-
-  const rows = await db
-    .select()
-    .from(schema.reports)
-    .where(eq(schema.reports.slug, slug))
-    .limit(1);
-
-  const report = rows[0];
-  if (!report) {
-    notFound();
-  }
-
-  const session = await auth();
-  const isOwner = session?.user?.id && session.user.id === report.userId;
-  const canSave = !report.userId; // anonymous report — anyone logged in can claim
-
   return (
-    <ReportView
-      report={report}
-      isLoggedIn={!!session?.user}
-      isOwner={!!isOwner}
-      canSave={canSave}
-    />
+    <main
+      className={`sakura-root ${display.variable} ${body.variable} ${mono.variable}`}
+    >
+      <Header />
+      <section className="sk-section" style={{ minHeight: "70vh" }}>
+        <div className="sk-container">
+          <ReportCard slug={slug} />
+        </div>
+      </section>
+      <Footer />
+    </main>
   );
 }

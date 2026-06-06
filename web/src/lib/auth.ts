@@ -12,7 +12,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   pages: {
-    signIn: "/sign-in",
+    signIn: "/login",
   },
   session: {
     strategy: "database",

@@ -17,7 +17,7 @@ export async function POST(request: Request, { params }: Params) {
   if (!userId) {
     const url = new URL(request.url);
     return NextResponse.redirect(
-      new URL(`/sign-in?next=${encodeURIComponent(`/r/${slug}?claim=1`)}`, url.origin),
+      new URL(`/login?next=${encodeURIComponent(`/r/${slug}?claim=1`)}`, url.origin),
       { status: 303 }
     );
   }

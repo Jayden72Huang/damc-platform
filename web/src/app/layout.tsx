@@ -1,62 +1,30 @@
 import type { Metadata } from "next";
-import {
-  Cormorant_Garamond,
-  Fraunces,
-  Inter,
-  JetBrains_Mono,
-} from "next/font/google";
-import { Header } from "@/components/atelier/Header";
-import { I18nProvider } from "@/lib/i18n/I18nProvider";
+import { cookies } from "next/headers";
 import "./globals.css";
-import "./atelier/atelier.css";
-
-const display = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: "500",
-  style: ["normal", "italic"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const numbers = Fraunces({
-  subsets: ["latin"],
-  weight: "variable",
-  axes: ["opsz"],
-  variable: "--font-numbers",
-  display: "swap",
-});
-
-const body = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-});
-
-const code = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-code",
-  display: "swap",
-});
+import { I18nProvider } from "@/lib/i18n/I18nProvider";
+import { LOCALE_COOKIE, localeToHtmlLang, normalizeLocale } from "@/lib/i18n/config";
 
 export const metadata: Metadata = {
-  title: "DAMC.ai | 你的 Agent 体检报告",
+  title: "DAMC.ai | 你的 Agent 体检报告 / Know Your Worth",
   description:
-    "一个命令扫描你的 Agent 配置和 git 历史，量化评估 AI 时代的 4 个能力维度。",
+    "一个命令扫描你的 Agent 配置和 git 历史，量化评估 AI 时代的 4 个能力维度。 One command scans your Agent setup and git history to quantify your 4 AI-era capability dimensions.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const cookieStore = await cookies();
+  const locale = normalizeLocale(cookieStore.get(LOCALE_COOKIE)?.value);
+
   return (
     <html
-      lang="zh-CN"
-      className={`dark h-full scroll-smooth antialiased ${display.variable} ${numbers.variable} ${body.variable} ${code.variable}`}
+      lang={localeToHtmlLang(locale)}
+      className="h-full scroll-smooth antialiased"
     >
       <body className="flex min-h-full flex-col">
-        <I18nProvider>
-          <Header />
-          {children}
-        </I18nProvider>
+        <I18nProvider initialLocale={locale}>{children}</I18nProvider>
       </body>
     </html>
   );
