@@ -6,6 +6,7 @@ import {
   JetBrains_Mono,
 } from "next/font/google";
 import { Header } from "@/components/atelier/Header";
+import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import "./globals.css";
 import "./atelier/atelier.css";
 
@@ -52,8 +53,10 @@ export default function RootLayout({
       className={`dark h-full scroll-smooth antialiased ${display.variable} ${numbers.variable} ${body.variable} ${code.variable}`}
     >
       <body className="flex min-h-full flex-col">
-        <Header />
-        {children}
+        <I18nProvider>
+          <Header />
+          {children}
+        </I18nProvider>
       </body>
     </html>
   );
