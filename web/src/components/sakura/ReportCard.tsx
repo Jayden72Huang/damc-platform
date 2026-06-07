@@ -23,6 +23,15 @@ const COPY = {
     copyShare: "复制分享文本",
     testYours: "测测你的 DAMC",
     shareLine: "测测你的 AI 时代价值 →",
+    skillsTitle: "值得上架的 SKILLS",
+    skillsDesc: "AI 从你的环境识别出这些高价值能力 — 上架到平台即可变现或影响他人",
+    skillsCta: "去 Dashboard 上架 →",
+    skillsPending: "待上架",
+    skillsPublished: "已上架",
+    skillsValuation: "估值",
+    teamTitle: "组队冲榜",
+    teamDesc: "邀请同事或好友一起测 DAMC，看谁是团队 AI 战力第一，登上团队排行榜",
+    teamCta: "创建团队 / 加入 →",
     dateLocale: "zh-CN",
   },
   en: {
@@ -45,6 +54,15 @@ const COPY = {
     copyShare: "Copy share text",
     testYours: "Test your own DAMC",
     shareLine: "Measure your AI-era value →",
+    skillsTitle: "SKILLS WORTH PUBLISHING",
+    skillsDesc: "AI identified these high-value capabilities from your setup — publish them to monetize or share",
+    skillsCta: "Publish on Dashboard →",
+    skillsPending: "Pending",
+    skillsPublished: "Published",
+    skillsValuation: "Value",
+    teamTitle: "TEAM RANKING",
+    teamDesc: "Invite teammates or friends to take DAMC — see who tops your team's AI leaderboard",
+    teamCta: "Create / Join a team →",
     dateLocale: "en-US",
   },
 };
@@ -66,6 +84,16 @@ interface ReportData {
     actions?: string[];
   } | null;
   scanSummary: Record<string, number> | null;
+  skills?: Array<{
+    id: string;
+    name: string;
+    displayName: string;
+    iconEmoji: string | null;
+    valuation: { score?: number; reasoning?: string } | null;
+    status: string;
+    visibility: string;
+    installCommand: string;
+  }> | null;
   createdAt: string;
   userId: string | null;
   userName: string | null;
@@ -327,6 +355,100 @@ export function ReportCard({ slug }: { slug: string }) {
           </div>
         </div>
       )}
+
+      {/* CTA 区：值得上架的 Skills + 组队冲榜（上下排列）*/}
+      <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 40 }}>
+        {/* 1. 值得上架的 Skills */}
+        {data.skills && data.skills.length > 0 && (
+          <div className="sk-rpt-insights">
+            <div
+              className="sk-display"
+              style={{ fontSize: 14, letterSpacing: 2, marginBottom: 8 }}
+            >
+              💎 {c.skillsTitle}
+            </div>
+            <p style={{ fontSize: 13, color: "var(--ink-light)", marginBottom: 16 }}>
+              {c.skillsDesc}
+            </p>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+                marginBottom: 18,
+              }}
+            >
+              {data.skills.map((s) => (
+                <div
+                  key={s.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    padding: "12px 16px",
+                    background: "var(--paper-lt)",
+                    border: "1px solid var(--ink-faint)",
+                    borderRadius: 8,
+                  }}
+                >
+                  <span style={{ fontSize: 20 }}>{s.iconEmoji ?? "🧩"}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 600, fontSize: 14 }}>
+                      {s.displayName}
+                    </div>
+                    {s.valuation?.score != null && (
+                      <div style={{ fontSize: 12, color: "var(--ink-light)" }}>
+                        {c.skillsValuation} {s.valuation.score}/100
+                      </div>
+                    )}
+                  </div>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      padding: "3px 10px",
+                      borderRadius: 100,
+                      whiteSpace: "nowrap",
+                      background:
+                        s.status === "published"
+                          ? "var(--color-m-dim)"
+                          : "var(--color-c-dim)",
+                      color:
+                        s.status === "published"
+                          ? "var(--color-m)"
+                          : "var(--ink)",
+                    }}
+                  >
+                    {s.status === "published"
+                      ? c.skillsPublished
+                      : c.skillsPending}
+                  </span>
+                </div>
+              ))}
+            </div>
+            {data.skills.some((s) => s.status !== "published") && (
+              <a href="/dashboard#skills" className="sk-btn sk-btn-primary">
+                {c.skillsCta}
+              </a>
+            )}
+          </div>
+        )}
+
+        {/* 2. 组队冲榜 */}
+        <div className="sk-rpt-insights">
+          <div
+            className="sk-display"
+            style={{ fontSize: 14, letterSpacing: 2, marginBottom: 8 }}
+          >
+            🏆 {c.teamTitle}
+          </div>
+          <p style={{ fontSize: 13, color: "var(--ink-light)", marginBottom: 16 }}>
+            {c.teamDesc}
+          </p>
+          <a href="/leaderboard" className="sk-btn sk-btn-primary">
+            {c.teamCta}
+          </a>
+        </div>
+      </div>
 
       {/* Scan summary */}
       {data.scanSummary && (

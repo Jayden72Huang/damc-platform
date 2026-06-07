@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { reports, users } from "@/lib/schema";
+import { reports, users, skills } from "@/lib/schema";
 import { eq, sql } from "drizzle-orm";
 import { getGrade, getPercentileLabel } from "@/lib/scoring";
 
@@ -55,8 +55,24 @@ export async function GET(
         ? Math.round((below / scoreValues.length) * 100)
         : 100;
 
+    // 该报告关联的 skills（CLI 用 reportToken 暂存的草稿）— 报告页据此展示「值得上架」CTA
+    const reportSkills = await db
+      .select({
+        id: skills.id,
+        name: skills.name,
+        displayName: skills.displayName,
+        iconEmoji: skills.iconEmoji,
+        valuation: skills.valuation,
+        status: skills.status,
+        visibility: skills.visibility,
+        installCommand: skills.installCommand,
+      })
+      .from(skills)
+      .where(eq(skills.reportSlug, slug));
+
     return NextResponse.json({
       ...report,
+      skills: reportSkills,
       grade: getGrade(report.overall ?? 0),
       percentile,
       percentileLabel: getPercentileLabel(percentile),
