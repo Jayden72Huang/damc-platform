@@ -81,7 +81,7 @@ export async function POST(request: Request) {
     const siteUrl =
       process.env.NEXT_PUBLIC_SITE_URL ||
       request.headers.get("origin") ||
-      "https://damc-platform.vercel.app";
+      "https://damc.space";
 
     return NextResponse.json({
       token: inserted.slug,

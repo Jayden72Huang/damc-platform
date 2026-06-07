@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { reports } from "@/lib/schema";
+import { reports, skills } from "@/lib/schema";
 import { auth } from "@/lib/auth";
 import { eq, and, isNull } from "drizzle-orm";
 
@@ -28,6 +28,12 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
+
+    // 级联认领：把该报告关联的匿名 skills（CLI 用 reportToken 暂存的）也绑定到当前账号
+    await db
+      .update(skills)
+      .set({ userId: session.user.id })
+      .where(and(eq(skills.reportSlug, slug), isNull(skills.userId)));
 
     return NextResponse.json({ ok: true, slug: updated.slug });
   } catch (error) {

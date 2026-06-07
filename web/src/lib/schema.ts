@@ -67,9 +67,9 @@ export const reports = pgTable("reports", {
 export const skills = pgTable("skills", {
   id: uuid("id").defaultRandom().primaryKey(),
   slug: text("slug").unique().notNull(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
+  // 可空：CLI 用 reportToken 上传时报告可能尚未绑定账号，先匿名暂存，
+  // 用户绑定报告时由 /api/reports/bind 级联认领。
+  userId: text("user_id").references(() => users.id, { onDelete: "cascade" }),
   reportSlug: text("report_slug").references(() => reports.slug, {
     onDelete: "set null",
   }),

@@ -89,7 +89,9 @@ export async function POST(request: Request) {
     }
   }
 
-  if (!userId) {
+  // 放行条件：有登录 session（userId），或有有效 reportToken（报告存在 → reportSlug）。
+  // 匿名报告的 userId 此刻可能为 null，skills 先暂存，待用户绑定报告时级联认领。
+  if (!userId && !reportSlug) {
     return NextResponse.json(
       { error: "Unauthorized — log in at damc.space or provide a valid reportToken" },
       { status: 401 }
